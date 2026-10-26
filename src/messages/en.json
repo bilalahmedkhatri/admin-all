@@ -1,0 +1,1251 @@
+{
+  "common": {
+    "home": "Home",
+    "edit": "Edit",
+    "close": "Close",
+    "saveChanges": "Save Changes",
+    "viewMore": "View More",
+    "delete": "Delete",
+    "filter": "Filter",
+    "seeAll": "See all"
+  },
+  "sidebar": {
+    "groups": {
+      "menu": "Menu",
+      "support": "Support",
+      "others": "Others"
+    },
+    "badges": {
+      "new": "new",
+      "pro": "pro"
+    },
+    "items": {
+      "blog-editor": "Blog Editor",
+      "dashboard": "Dashboard",
+      "ecommerceHome": "Ecommerce",
+      "analytics": "Analytics",
+      "marketing": "Marketing",
+      "crm": "CRM",
+      "stocks": "Stocks",
+      "saas": "SaaS",
+      "logistics": "Logistics",
+      "ai": "AI",
+      "sales": "Sales",
+      "finance": "Finance",
+      "aiAssistant": "AI Assistant",
+      "textGenerator": "Text Generator",
+      "imageGenerator": "Image Generator",
+      "codeGenerator": "Code Generator",
+      "videoGenerator": "Video Generator",
+      "aiSettings": "AI Settings",
+      "ecommerce": "E-commerce",
+      "products": "Products",
+      "addProduct": "Add Product",
+      "billing": "Billing",
+      "invoices": "Invoices",
+      "singleInvoice": "Single Invoice",
+      "createInvoice": "Create Invoice",
+      "transactions": "Transactions",
+      "singleTransaction": "Single Transaction",
+      "calendar": "Calendar",
+      "userProfile": "User Profile",
+      "task": "Task",
+      "taskList": "List",
+      "kanban": "Kanban",
+      "forms": "Forms",
+      "formElements": "Form Elements",
+      "formLayout": "Form Layout",
+      "tables": "Tables",
+      "basicTables": "Basic Tables",
+      "dataTables": "Data Tables",
+      "pages": "Pages",
+      "fileManager": "File Manager",
+      "pricingTables": "Pricing Tables",
+      "faq": "FAQ",
+      "apiKeys": "API Keys",
+      "integrations": "Integrations",
+      "blankPage": "Blank Page",
+      "error404": "404 Error",
+      "error500": "500 Error",
+      "error503": "503 Error",
+      "comingSoon": "Coming Soon",
+      "maintenance": "Maintenance",
+      "successPage": "Success",
+      "layouts": "Layouts",
+      "layoutOne": "Layout One",
+      "layoutTwo": "Layout Two",
+      "layoutThree": "Layout Three",
+      "layoutFour": "Layout Four",
+      "layoutFive": "Layout Five",
+      "layoutSix": "Layout Six",
+      "charts": "Charts",
+      "lineChart": "Line Chart",
+      "barChart": "Bar Chart",
+      "pieChart": "Pie Chart",
+      "radarChart": "Radar Chart",
+      "radialChart": "Radial Chart",
+      "maps": "Maps",
+      "mapsGoogle": "Maps",
+      "vectorMap": "Vector Map",
+      "uiElements": "UI Elements",
+      "alerts": "Alerts",
+      "avatar": "Avatar",
+      "badge": "Badge",
+      "breadcrumb": "Breadcrumb",
+      "buttons": "Buttons",
+      "buttonsGroup": "Buttons Group",
+      "cards": "Cards",
+      "carousel": "Carousel",
+      "dropdowns": "Dropdowns",
+      "images": "Images",
+      "links": "Links",
+      "listView": "List",
+      "modals": "Modals",
+      "notificationUi": "Notification",
+      "pagination": "Pagination",
+      "popovers": "Popovers",
+      "progressbar": "Progressbar",
+      "ribbons": "Ribbons",
+      "spinners": "Spinners",
+      "tabs": "Tabs",
+      "tooltips": "Tooltips",
+      "videos": "Videos",
+      "authentication": "Authentication",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "resetPassword": "Reset Password",
+      "twoStepVerification": "Two Step Verification",
+      "chat": "Chat",
+      "supportMenu": "Support",
+      "supportList": "Support List",
+      "supportReply": "Support Reply",
+      "email": "Email",
+      "inbox": "Inbox",
+      "inboxDetails": "Details",
+      "overview": "Overview",
+      "endpoints": "API endpoints",
+      "api-keys": "API keys",
+      "models": "Provider models",
+      "apps": "Authorized apps",
+      "activity": "Activity",
+      "requests": "AI requests",
+      "users": "Team & permissions",
+      "settings": "Credentials & settings",
+      "profile": "User profile"
+    },
+    "widget": {
+      "title": "#1 Tailwind CSS Dashboard",
+      "description": "Leading Tailwind CSS Admin Template with 500+ UI Component and Pages.",
+      "purchasePlan": "Purchase Plan"
+    },
+    "overviewChildren": {
+      "summary": "Summary",
+      "collections": "API collections",
+      "analytics": "Usage analytics",
+      "recentActivity": "Recent activity"
+    }
+  },
+  "header": {
+    "searchPlaceholder": "Search or type command...",
+    "toggleSidebar": "Toggle Sidebar",
+    "notifications": {
+      "title": "Notification",
+      "requestsPermission": "requests permission to change",
+      "project": "Project",
+      "minAgo": "{count} min ago",
+      "hrAgo": "{count} hr ago",
+      "viewAll": "View All Notifications"
+    }
+  },
+  "userDropdown": {
+    "editProfile": "Edit profile",
+    "accountSettings": "Account settings",
+    "support": "Support",
+    "language": "Language",
+    "signOut": "Sign out"
+  },
+  "ecommerce": {
+    "title": "E-commerce Dashboard",
+    "metrics": {
+      "customers": "Customers",
+      "orders": "Orders"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "monthlySales": {
+      "title": "Monthly Sales",
+      "series": "Sales"
+    },
+    "monthlyTarget": {
+      "title": "Monthly Target",
+      "subtitle": "Target you’ve set for each month",
+      "earned": "You earn {amount} today, it's higher than last month. Keep up your good work!",
+      "target": "Target",
+      "revenue": "Revenue",
+      "today": "Today"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "subtitle": "Target you've set for each month",
+      "sales": "Sales",
+      "revenue": "Revenue",
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "annually": "Annually",
+      "selectDateRange": "Select date range"
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "products": "Products",
+      "category": "Category",
+      "price": "Price",
+      "status": "Status",
+      "variants": "{count, plural, one {# Variant} other {# Variants}}",
+      "categories": {
+        "laptop": "Laptop",
+        "watch": "Watch",
+        "smartphone": "SmartPhone",
+        "electronics": "Electronics",
+        "accessories": "Accessories"
+      },
+      "statuses": {
+        "delivered": "Delivered",
+        "pending": "Pending",
+        "canceled": "Canceled"
+      }
+    },
+    "demographic": {
+      "title": "Customers Demographic",
+      "subtitle": "Number of customer based on country",
+      "customers": "{count} Customers",
+      "usa": "USA",
+      "france": "France"
+    }
+  },
+  "analytics": {
+    "metrics": {
+      "uniqueVisitors": "Unique Visitors",
+      "totalPageviews": "Total Pageviews",
+      "bounceRate": "Bounce Rate",
+      "visitDuration": "Visit Duration",
+      "vsLastMonth": "Vs last month"
+    },
+    "barChart": {
+      "title": "Analytics",
+      "subtitle": "Visitor analytics of last 30 days"
+    },
+    "topChannels": {
+      "title": "Top Channels",
+      "source": "Source",
+      "visitors": "Visitors",
+      "channelsReport": "Channels Report"
+    },
+    "topPages": {
+      "title": "Top Pages",
+      "source": "Source",
+      "pageview": "Pageview",
+      "channelsReport": "Channels Report"
+    },
+    "activeUsers": {
+      "title": "Active Users",
+      "liveVisitors": "Live visitors",
+      "avgDaily": "Avg, Daily",
+      "avgWeekly": "Avg, Weekly",
+      "avgMonthly": "Avg, Monthly"
+    },
+    "acquisitionChannels": {
+      "title": "Acquisition Channels"
+    },
+    "session": {
+      "title": "Sessions By Device"
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "products": "Products",
+      "category": "Category",
+      "country": "Country",
+      "cr": "CR",
+      "value": "Value",
+      "categories": {
+        "uiKits": "UI Kits",
+        "templates": "Templates",
+        "saas": "SaaS"
+      },
+      "crDashboard": "Dashboard"
+    }
+  },
+  "notFound": {
+    "error": "ERROR",
+    "message": "We can’t seem to find the page you are looking for!",
+    "backHome": "Back to Home Page"
+  },
+  "marketing": {
+    "metrics": {
+      "avgClientRating": "Avg. Client Rating",
+      "instagramFollowers": "Instagram Followers",
+      "totalRevenue": "Total Revenue",
+      "vsLastMonth": "Vs last month"
+    },
+    "impressionChart": {
+      "title": "Impression & Data Traffic",
+      "totalRevenue": "Total Revenue",
+      "sales": "Sales",
+      "revenue": "Revenue"
+    },
+    "featuredCampaign": {
+      "title": "Featured Campaigns",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "products": "Products",
+      "campaign": "Campaign",
+      "status": "Status",
+      "adsCampaign": "Ads campaign",
+      "campaigns": {
+        "growBrand": "Grow your brand by...",
+        "betterIdeas": "Make Better Ideas...",
+        "increaseTraffic": "Increase your website tra..."
+      },
+      "statuses": {
+        "success": "Success",
+        "pending": "Pending",
+        "failed": "Failed"
+      }
+    },
+    "trafficStats": {
+      "title": "Traffic Stats",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "newSubscribers": "New Subscribers",
+      "conversionRate": "Conversion Rate",
+      "pageBounceRate": "Page Bounce Rate",
+      "thenLastWeek": "then last Week",
+      "newSales": "New Sales"
+    },
+    "trafficSource": {
+      "title": "Top Traffic Source",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "viewAll": "View All"
+    }
+  },
+  "crm": {
+    "metrics": {
+      "activeDeal": "Active Deal",
+      "revenueTotal": "Revenue Total",
+      "closedDeals": "Closed Deals",
+      "lastMonth": "last month"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "subtitle": "Target you’ve set for each month",
+      "avgYearlyProfit": "Avg. Yearly Profit",
+      "sales": "Sales",
+      "revenue": "Revenue"
+    },
+    "estimatedRevenue": {
+      "title": "Estimated Revenue",
+      "subtitle": "Target you’ve set for each month",
+      "goals": "June Goals",
+      "marketing": "Marketing",
+      "sales": "Sales"
+    },
+    "salesCategory": {
+      "title": "Sales Category",
+      "affiliate": "Affiliate",
+      "direct": "Direct",
+      "adsense": "Adsense",
+      "affiliateProgram": "Affiliate Program",
+      "directBuy": "Direct Buy",
+      "products": "Products",
+      "total": "Total",
+      "usedOf": "Used of"
+    },
+    "upcomingSchedule": {
+      "title": "Upcoming Schedule",
+      "schedules": {
+        "item1": {
+          "title": "Business Analytics Press",
+          "description": "Exploring the Future of Data-Driven +6 more"
+        },
+        "item2": {
+          "title": "Business Sprint",
+          "description": "Techniques from Business Sprint +2 more"
+        },
+        "item3": {
+          "title": "Customer Review Meeting",
+          "description": "Insights from the Customer Review Meeting +8 more"
+        }
+      }
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "dealId": "Deal ID",
+      "customer": "Customer",
+      "productService": "Product/Service",
+      "dealValue": "Deal Value",
+      "closeDate": "Close Date",
+      "status": "Status",
+      "action": "Action",
+      "products": {
+        "softwareLicense": "Software License",
+        "cloudHosting": "Cloud Hosting",
+        "webDomain": "Web Domain",
+        "sslCertificate": "SSL Certificate",
+        "premiumSupport": "Premium Support"
+      },
+      "statuses": {
+        "complete": "Complete",
+        "pending": "Pending",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "stocks": {
+    "title": "Stocks",
+    "dividend": {
+      "title": "Dividend",
+      "series": "Dividend",
+      "viewMore": "View More",
+      "delete": "Delete"
+    },
+    "portfolioPerformance": {
+      "title": "Portfolio Performance",
+      "subtitle": "Here is your performance stats of each month",
+      "series": "Portfolio Performance"
+    },
+    "trendingStocks": {
+      "title": "Trending Stocks",
+      "shortStock": "Short Stock",
+      "buyStock": "Buy Stock"
+    },
+    "watchlist": {
+      "title": "My Watchlist",
+      "viewMore": "View More",
+      "delete": "Delete"
+    },
+    "latestTransactions": {
+      "title": "Latest Transactions",
+      "searchPlaceholder": "Search...",
+      "table": {
+        "name": "Name",
+        "date": "Date",
+        "price": "Price",
+        "category": "Category",
+        "status": "Status"
+      },
+      "actions": {
+        "bought": "Bought {symbol}",
+        "sell": "Sell {symbol}"
+      },
+      "categories": {
+        "finance": "Finance"
+      },
+      "statuses": {
+        "success": "Success",
+        "pending": "Pending",
+        "failed": "Failed"
+      }
+    }
+  },
+  "saas": {
+    "title": "SaaS",
+    "metrics": {
+      "overview": "Overview",
+      "totalRevenue": "Total Revenue",
+      "activeUsers": "Active Users",
+      "clv": "Customer Lifetime Value",
+      "cac": "Customer Acquisition Cost"
+    },
+    "churnRate": {
+      "title": "Churn Rate",
+      "subtitle": "Downgrade to Free plan",
+      "thanLastWeek": "than last Week",
+      "series": "Churn Rate",
+      "viewMore": "View More",
+      "delete": "Delete"
+    },
+    "userGrowth": {
+      "title": "User Growth",
+      "subtitle": "New signups website + mobile",
+      "thanLastWeek": "than last Week",
+      "series": "Revenue",
+      "viewMore": "View More",
+      "delete": "Delete"
+    },
+    "conversionFunnel": {
+      "title": "Conversion Funnel",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "series": {
+        "adImpressions": "Ad Impressions",
+        "websiteSession": "Website Session",
+        "appDownload": "App Download",
+        "newUsers": "New Users"
+      }
+    },
+    "recentInvoices": {
+      "title": "Recent Invoices",
+      "table": {
+        "serialNo": "Serial No:",
+        "closeDate": "Close Date",
+        "user": "User",
+        "amount": "Amount",
+        "status": "Status"
+      },
+      "statuses": {
+        "complete": "Complete",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
+      }
+    },
+    "productPerformance": {
+      "title": "Product Performance",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "tabs": {
+        "dailySales": "Daily Sales",
+        "onlineSales": "Online Sales",
+        "newUsers": "New Users"
+      },
+      "digitalProduct": "Digital Product",
+      "physicalProduct": "Physical Product",
+      "avgDailySales": "Average Daily Sales",
+      "totalOnlineSales": "Total Online Sales",
+      "addedLastMonth": "Added last month",
+      "totalNewUsers": "Total New Users",
+      "series": {
+        "sales": "Sales",
+        "revenue": "Revenue"
+      }
+    },
+    "activities": {
+      "title": "Activities",
+      "viewMore": "View More",
+      "delete": "Delete",
+      "newInvoice": "New invoice",
+      "createdInvoice": "created invoice"
+    }
+  },
+  "logistics": {
+    "title": "Logistics",
+    "metrics": {
+      "totalOrders": "Total Orders",
+      "ordersInTransit": "Orders in Transit"
+    },
+    "deliveryStatistics": {
+      "title": "Delivery Statistics",
+      "subtitle": "Total number of deliveries 70.5K",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "shipment": "Shipment",
+      "delivery": "Delivery"
+    },
+    "revenueEarned": {
+      "totalRevenue": "Total revenue earned",
+      "shippedQuantities": "Shipped quantities",
+      "newSales": "New Sales"
+    },
+    "deliveryVehicle": {
+      "title": "Delivery Vehicles",
+      "subtitle": "Vehicles operating on the road",
+      "thanLastWeek": "than last Week",
+      "onRoute": "On-route"
+    },
+    "trackingDelivery": {
+      "title": "Tracking Delivery",
+      "subtitle": "Last viewed delivery history"
+    },
+    "trackingProgress": {
+      "trackingId": "Tracking ID",
+      "inTransit": "In Transit",
+      "pickedUp": "Picked up",
+      "delivered": "Delivered"
+    },
+    "deliveryMan": {
+      "courier": "Courier"
+    },
+    "deliveriesActivity": {
+      "title": "Delivery Activities",
+      "subtitle": "Track your recent shipping activities",
+      "tabs": {
+        "all": "All",
+        "delivered": "Delivered",
+        "inTransit": "In-Transit",
+        "pending": "Pending",
+        "processing": "Processing"
+      },
+      "filter": {
+        "button": "Filter",
+        "category": "Category",
+        "searchCategory": "Search category...",
+        "company": "Company",
+        "searchCompany": "Search company...",
+        "apply": "Apply"
+      },
+      "table": {
+        "orderId": "Order ID",
+        "category": "Category",
+        "company": "Company",
+        "arrivalTime": "Arrival Time",
+        "route": "Route",
+        "price": "Price",
+        "status": "Status"
+      },
+      "categories": {
+        "furniture": "Furniture",
+        "clothing": "Clothing",
+        "books": "Books",
+        "automotive": "Automotive",
+        "electronics": "Electronics",
+        "health": "Health",
+        "toys": "Toys",
+        "kitchen": "Kitchen",
+        "beauty": "Beauty",
+        "sports": "Sports"
+      },
+      "statuses": {
+        "delivered": "Delivered",
+        "inTransit": "In Transit",
+        "canceled": "Canceled"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "page": "Page"
+      }
+    }
+  },
+  "aiDashboard": {
+    "stats": {
+      "users": "Users",
+      "projects": "Projects",
+      "revenue": "Revenue",
+      "paidUsers": "Paid Users",
+      "last30Days": "Last 30 Days"
+    },
+    "userRevenue": {
+      "title": "Users & Revenue Statistics",
+      "subtitle": "Visualize month-to-month progress and engagement.",
+      "users": "Users",
+      "revenue": "Revenue",
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "annually": "Annually"
+    },
+    "apiToken": {
+      "title": "API Token Usages",
+      "totalApiTokenUsed": "Total API Token Used",
+      "tokenUsed": "Token used",
+      "configuredKey": "{count, plural, one {# API key configured} other {# API keys configured}}",
+      "viewAllUsageDetails": "View All Usage Details"
+    },
+    "userAnalytics": {
+      "title": "User Analytics",
+      "subtitle": "Platform user insights",
+      "totalUsers": "Total Users",
+      "freeUsers": "Free Users",
+      "paidUsers": "Paid Users",
+      "ofTotalUser": "of total user",
+      "thisMonth": "This Month",
+      "fromLastMonth": "from last month",
+      "thisYear": "This Year",
+      "fromLastYear": "from last year"
+    },
+    "projectAnalytics": {
+      "title": "Projects Analytics",
+      "subtitle": "View detailed project insights",
+      "totalProjects": "Total Projects",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "projectCreated": "Project created",
+      "thisMonth": "This Month",
+      "fromLastMonth": "from last month",
+      "thisYear": "This Year",
+      "fromLastYear": "from last year"
+    },
+    "recentTransactions": {
+      "title": "Recent Transactions",
+      "searchPlaceholder": "Search...",
+      "filter": "Filter",
+      "table": {
+        "paidBy": "Paid By",
+        "packageName": "Package Name",
+        "price": "Price",
+        "paidDate": "Paid Date",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "packages": {
+        "starterMonthly": "Starter - Monthly",
+        "growthYearly": "Growth - Yearly",
+        "premiumMonthly": "Premium - Monthly"
+      },
+      "statuses": {
+        "active": "Active",
+        "expired": "Expired"
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "pageOf": "Page {current} of {total}"
+      }
+    }
+  },
+  "sales": {
+    "salesStats": {
+      "title": "Sales Dashboard",
+      "subtitle": "Track revenue, performance, and sales growth in real-time",
+      "selectDateRange": "Select date range",
+      "export": "Export",
+      "totalRevenue": "Total Revenue",
+      "totalSales": "Total Sales",
+      "conversionRate": "Conversion Rate",
+      "refundRate": "Refund Rate",
+      "vsLastMonth": "vs last month",
+      "newSales": "New Sales"
+    },
+    "userRevenueStats": {
+      "title": "Users & Revenue Statistics",
+      "subtitle": "Visualize month-to-month progress and engagement.",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "onlineSales": "Online Sales",
+      "offlineSales": "Offline Sales"
+    },
+    "userRetention": {
+      "title": "User Retention",
+      "subtitle": "User engagement over time",
+      "increasedVsLastWeek": "Increased vs last week"
+    },
+    "salesByChannel": {
+      "title": "Sales by Channel",
+      "subtitle": "Channel performance overview",
+      "increasedVsLastWeek": "Increased vs last week",
+      "channels": {
+        "website": "Website",
+        "email": "Email",
+        "socialMedia": "Social Media"
+      },
+      "table": {
+        "channels": "Channels",
+        "metric": "Metric",
+        "total": "Total"
+      }
+    },
+    "salesByCountry": {
+      "title": "Sales by Country",
+      "subtitle": "Country-wise sales overview",
+      "countries": {
+        "usa": "USA",
+        "france": "France",
+        "japan": "Japan",
+        "germany": "Germany"
+      }
+    },
+    "topProducts": {
+      "title": "Top Products",
+      "table": {
+        "productName": "Product Name",
+        "category": "Category",
+        "sales": "Sales",
+        "earnings": "Earnings",
+        "stocks": "Stocks",
+        "status": "Status"
+      },
+      "products": {
+        "classicDenimJacket": "Classic Denim Jacket",
+        "slimFitChinos": "Slim Fit Chinos",
+        "organicCottonTShirt": "Organic Cotton T-Shirt",
+        "leatherAnkleBoots": "Leather Ankle Boots"
+      },
+      "variants": {
+        "threeSizes": "3 Sizes",
+        "fourColors": "4 Colors",
+        "fiveColors": "5 Colors",
+        "sixSizes": "6 Sizes"
+      },
+      "categories": {
+        "jacket": "Jacket",
+        "pants": "Pants",
+        "tShirt": "T-Shirt",
+        "footwear": "Footwear"
+      },
+      "statuses": {
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock"
+      }
+    }
+  },
+  "finance": {
+    "totalBalanceOverview": {
+      "title": "Total Balance",
+      "overview": "Overview of your current funds",
+      "thanLastMonth": "than last month",
+      "primaryAccount": "Primary Account:",
+      "seeDetails": "See Details",
+      "transfer": "Transfer",
+      "received": "Received",
+      "balance": "Balance"
+    },
+    "stats": {
+      "totalBalance": "Total Balance",
+      "monthlyIncome": "Monthly Income",
+      "totalSpent": "Total Spent",
+      "savingRate": "Saving Rate",
+      "thanLastMonth": "than last month",
+      "goalProgress": "Goal: 30% - 3.9% to go"
+    },
+    "cashflow": {
+      "title": "Cashflow Overview",
+      "totalRevenue": "Total Revenue",
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "spending": {
+      "title": "Spending",
+      "yearly": "Yearly",
+      "monthly": "Monthly",
+      "total": "Total",
+      "categories": {
+        "activity": "Activity",
+        "onlinePurchases": "Online Purchases",
+        "groceries": "Groceries",
+        "digitalGoods": "Digital Goods",
+        "stationery": "Stationery",
+        "others": "Others"
+      }
+    },
+    "quickSend": {
+      "title": "Quick send",
+      "sendFrom": "Send From",
+      "currency": "Currency",
+      "amount": "Amount",
+      "sendMoney": "Send Money"
+    },
+    "myCards": {
+      "title": "My Cards",
+      "addCard": "Add Card",
+      "virtualCard": "Virtual Card",
+      "recentTransactions": "Recent Transactions",
+      "seeAllTransactions": "See All Transactions",
+      "transactions": {
+        "paymentReceived": "Payment Received",
+        "cashbackDesc": "Cashback from Stellar Rewards",
+        "netflixSubscription": "Netflix Subscription",
+        "netflixDesc": "September subscription charge",
+        "moneyReceived": "Money received",
+        "paypalDesc": "Payment received via PayPal",
+        "googleAds": "Google Ads",
+        "googleAdsDesc": "Payment received form google ads"
+      }
+    },
+    "transactionsTable": {
+      "title": "Recent Transactions",
+      "searchPlaceholder": "Search...",
+      "filter": "Filter",
+      "table": {
+        "orderId": "Order ID",
+        "activity": "Activity",
+        "price": "Price",
+        "date": "Date",
+        "status": "Status"
+      },
+      "activities": {
+        "hotelBooking": "Hotel Booking",
+        "onlineShopping": "Online Shopping",
+        "gamePurchase": "Game Purchase",
+        "utilityBillPayment": "Utility Bill Payment",
+        "onlineCourseEnrollment": "Online Course Enrollment"
+      },
+      "statuses": {
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      }
+    }
+  },
+  "gateway": {
+    "permissionEditor": {
+      "pagesTitle": "Pages",
+      "choosePage": "Select pages, then click a page name to configure its related permissions. Unchecking a page removes its related grants.",
+      "pageOptions": "{page} permissions",
+      "sectionsTitle": "API sections",
+      "blogApps": "Blog applications",
+      "componentsTitle": "Components and buttons",
+      "endpointTitle": "{section} endpoints",
+      "credentialsTitle": "Saved app credentials (optional)",
+      "credentialsHint": "Normal user execution uses a server-managed credential automatically.",
+      "pageOnly": "This page has no additional section or button permissions.",
+      "chooseSection": "Select an API section to configure its endpoints and actions.",
+      "adminAccess": "Administrators have full access. Individual permission selections are not required.",
+      "emptyRequests": "No access requests yet.",
+      "verified": "Verified",
+      "unverified": "Unverified",
+      "pages": {
+        "overview": "Overview",
+        "endpoints": "API endpoints",
+        "activity": "Activity",
+        "blog-editor": "Blog Editor",
+        "users": "Team and permissions",
+        "settings": "Credentials and settings",
+        "api-keys": "API keys"
+      },
+      "actions": {
+        "endpoint_execute": "Run allowed operations",
+        "endpoint_create": "Create",
+        "endpoint_update": "Update",
+        "endpoint_delete": "Delete",
+        "blog_create": "Create blog posts",
+        "blog_update": "Update blog posts",
+        "blog_publish": "Publish blog posts",
+        "members_manage": "Manage members",
+        "credentials_manage": "Manage credentials"
+      }
+    },
+    "account": "Workspace account",
+    "profile": "User profile",
+    "signOut": "Sign out",
+    "brand": "AI Gateway",
+    "navigation": "Workspace navigation",
+    "workspace": "Workspace",
+    "toggleSidebar": "Toggle sidebar",
+    "copy": {
+      "m001": "Usage analytics",
+      "m002": "Analytics date range",
+      "m003": "Last ",
+      "m004": " days",
+      "m005": "HTTP responses below 400 count as successful; 400 and above count as errors. Latency covers ",
+      "m006": " measured calls and includes gateway processing time, not background job completion.",
+      "m007": "Daily request volume",
+      "m008": "Daily average latency",
+      "m009": "Daily query tokens",
+      "m010": "Daily reported query cost",
+      "m011": "View daily metrics",
+      "m012": "Create API key",
+      "m013": "Secret API key",
+      "m014": "I have saved it",
+      "m015": "Ask an administrator to enable API keys and provide your master key.",
+      "m016": "Key name",
+      "m017": "My application",
+      "m018": "Master key",
+      "m019": "Enter the master key from your administrator. Required only for your first key.",
+      "m020": "Creating API key",
+      "m021": "Create key",
+      "m022": "Actions",
+      "m023": " (",
+      "m024": ")",
+      "m025": "…",
+      "m026": "Key metadata. The original secret cannot be retrieved again.",
+      "m027": "Key identifier",
+      "m028": "#",
+      "m029": "Prefix",
+      "m030": "Created",
+      "m031": "Last used",
+      "m032": "Status",
+      "m033": "API key statistics",
+      "m034": "Revoke key",
+      "m035": "API Keys",
+      "m036": "API quickstart",
+      "m037": "Store your secret key in your application’s server environment and send it with requests.",
+      "m038": "A new secret is shown only once. If you lose it, create a replacement and revoke the old key.",
+      "m039": "Group keys by",
+      "m040": "Group by",
+      "m041": "Filter by",
+      "m042": "All keys",
+      "m043": "Active keys",
+      "m044": "Revoked keys",
+      "m045": "Pending requests ",
+      "m046": "No pending access requests or memberships.",
+      "m047": "Review request",
+      "m048": "Authorized apps",
+      "m049": "Add app",
+      "m050": "Register gateway-owned apps and select their exact endpoint permissions. An app must be active and approved, with API access enabled for its owner.",
+      "m051": "Search apps",
+      "m052": "Search app, origin, owner or ID",
+      "m053": "No authorized apps match your search.",
+      "m054": "App #",
+      "m055": "ID ",
+      "m056": " · API ",
+      "m057": "App statistics",
+      "m058": "Manage app",
+      "m059": " of ",
+      "m060": " apps",
+      "m061": "Gateway owner API access",
+      "m062": "This setting affects every app belonging to the selected owner. It does not approve apps or grant endpoints.",
+      "m063": "Select only the endpoint permissions this app needs. Saving replaces the selected app’s permission list.",
+      "m064": "Owner #",
+      "m065": " · ",
+      "m066": "Origin: ",
+      "m067": "App name",
+      "m068": "Gateway owner",
+      "m069": "Select gateway owner",
+      "m070": " (#",
+      "m071": "App origin",
+      "m072": "http://localhost:3000",
+      "m073": "Use the exact origin, including its port. No path, wildcard or query string.",
+      "m074": "Active",
+      "m075": "Approved",
+      "m076": "Endpoint permissions (",
+      "m077": " selected)",
+      "m078": "Search endpoints, e.g. /generate/",
+      "m079": " (unregistered route, remove before saving)",
+      "m080": "No matching endpoints.",
+      "m081": "Saving",
+      "m082": "Saving owner access",
+      "m083": "Continue with Google",
+      "m084": "Access is approved",
+      "m085": "An administrator needs to assign your workspace pages and API permissions.",
+      "m086": "Your account is approved, but no pages have been assigned yet.",
+      "m087": "Activity log",
+      "m088": "Review gateway operations and permission changes. Request bodies, secret headers, and raw credentials are never stored here.",
+      "m089": " UTC",
+      "m090": "Page ",
+      "m091": " events",
+      "m092": "Previous",
+      "m093": "Next",
+      "m094": " authorization",
+      "m095": "New app keys are saved directly to the encrypted server vault. Raw keys are never sent to your browser. Configure the vault encryption key before creating a key.",
+      "m096": "Use the actual owner ID from the gateway users table. Dashboard account IDs do not identify gateway owners.",
+      "m097": "Request",
+      "m098": "Server credential",
+      "m099": "Secret headers are attached by the backend server.",
+      "m100": "Content type: ",
+      "m101": "JSON body",
+      "m102": "No input parameters are required.",
+      "m103": "I understand this operation may change records, revoke access, trigger processing, or incur provider costs.",
+      "m104": "Send ",
+      "m105": " request",
+      "m106": "Response",
+      "m107": "Waiting for backend confirmation",
+      "m108": "HTTP ",
+      "m109": " ms",
+      "m110": "Send a request to inspect its response.",
+      "m111": "Sensitive fields are automatically redacted.",
+      "m112": "Request schema",
+      "m113": "Showing up to 100 records and 8 columns.",
+      "m114": "View JSON response",
+      "m115": "API endpoints",
+      "m116": "Explore every operation. Open an endpoint to view its schema, enter parameters, and manage requests.",
+      "m117": " operations",
+      "m118": "Search endpoints",
+      "m119": "Search by path or description…",
+      "m120": "Collection",
+      "m121": "All collections",
+      "m122": "HTTP method",
+      "m123": "All methods",
+      "m124": "Filter",
+      "m125": "Reset",
+      "m126": " matching operations",
+      "m127": "No endpoints match your filters.",
+      "m128": "Welcome back",
+      "m129": "Sign in with your approved Google account to manage the workspace.",
+      "m130": "Only approved members can enter this workspace.",
+      "m131": "Here's what's happening with your AI Gateway workspace.",
+      "m132": "Refresh",
+      "m133": "API collections",
+      "m134": "A dedicated workspace for each part of your gateway.",
+      "m135": "View all",
+      "m136": "Analytics could not be loaded. Other Overview data is available. Use Refresh to retry.",
+      "m137": "Recent activity",
+      "m138": "View activity",
+      "m139": "No operations yet. Executed requests will appear here.",
+      "m140": "Access pending approval",
+      "m141": "Your email has been verified. An administrator will review your request.",
+      "m142": "Verification does not grant workspace access. Sign in with Google after an administrator approves your membership.",
+      "m143": "User profile",
+      "m144": "Your workspace account details.",
+      "m145": "Request workspace access",
+      "m146": "Verify your email and explain the access you need. Your request does not grant login permission.",
+      "m147": "Full name",
+      "m148": "Email address",
+      "m149": "Why do you need access?",
+      "m150": "Send verification email",
+      "m151": "AI requests",
+      "m152": "Query, text, voice, image and video history. Parent requests and recorded provider attempts are shown separately.",
+      "m153": "All",
+      "m154": "Search ID, model or provider",
+      "m155": "From date (UTC, inclusive)",
+      "m156": "Before date (UTC, exclusive)",
+      "m157": "Filter / Refresh",
+      "m158": "Range: ",
+      "m159": " to ",
+      "m160": " UTC (end excluded). Blank dates use the last 30 days. Maximum range: 366 days.",
+      "m161": "No AI requests match these filters.",
+      "m162": "App ",
+      "m163": "Owner ",
+      "m164": "Request pagination",
+      "m165": " requests",
+      "m166": "Close details",
+      "m167": "Input / output",
+      "m168": "Input",
+      "m169": "Output",
+      "m170": "Voice: ",
+      "m171": " · Audio duration: ",
+      "m172": " · Size: ",
+      "m173": "Dimensions: ",
+      "m174": " × ",
+      "m175": " · Media duration: ",
+      "m176": " · Requested outputs: ",
+      "m177": "Chunk counters are not individual provider calls. Tokens shown are recorded usage; known costs are estimates, not a complete provider bill.",
+      "m178": "Chunk operations (",
+      "m179": "No recorded chunk checkpoints.",
+      "m180": "Recorded attempts (",
+      "m181": "No recorded attempts.",
+      "m182": "Attempt ",
+      "m183": "Credentials & settings",
+      "m184": "Keep gateway credentials on the server. Save, replace, or remove encrypted credentials without exposing saved secrets to the browser.",
+      "m185": "Add or replace a credential",
+      "m186": "Label",
+      "m187": "Production app key",
+      "m188": "Saving an existing label replaces its secret.",
+      "m189": "Credential type",
+      "m190": "App API key",
+      "m191": "Gateway admin / cron secret",
+      "m192": "Secret",
+      "m193": "Exact app origin",
+      "m194": "Required for app keys. Must match the gateway app registration exactly.",
+      "m195": "Save encrypted credential",
+      "m196": "Connection configuration",
+      "m197": "Gateway URL",
+      "m198": "Connection and encryption settings are managed in the server environment. Restart the dashboard after changing them.",
+      "m199": "App keys require an approved app, an active gateway owner with API access, and exact method/route grants.",
+      "m200": "Set backend ENCRYPTION_KEY before saving credentials or generating app keys. See README for setup.",
+      "m201": "Deleting a vault entry removes the dashboard’s saved credential. Revoke the actual gateway key from its DELETE endpoint.",
+      "m202": "Encrypted · Hidden",
+      "m203": "Role",
+      "m204": "viewer",
+      "m205": "operator",
+      "m206": "admin",
+      "m207": "pending",
+      "m208": "approved",
+      "m209": "revoked",
+      "m210": "Administrators have full access. Other members require page, section and exact operation grants; operators also require action components and app credentials.",
+      "m211": "Team and permissions",
+      "m212": "Approve verified requests, invite members and assign only the sections, pages and operations they need.",
+      "m213": "Access requests",
+      "m214": "Approve membership",
+      "m215": "Email verification is required before approval.",
+      "m216": "Reject request",
+      "m217": "Members",
+      "m218": "Not required for administrators",
+      "m219": "Enable API keys",
+      "m220": "Approve member first",
+      "m221": "Managed by another administrator",
+      "m222": "Edit permissions",
+      "m223": "Save permissions",
+      "m224": "Revoke access",
+      "m225": "Invite a member",
+      "m226": "Approved email",
+      "m227": "Name",
+      "m228": "Create membership",
+      "m229": "Verify your email",
+      "m230": "Enter the six-digit code sent to your email. The code expires in 10 minutes.",
+      "m231": "Verification code",
+      "m232": "Verify email",
+      "m233": "Provider models",
+      "m234": "Register text, speech, voice, image, video and embedding models in the shared AI model catalog. Provider integration and inference routing are configured separately.",
+      "m235": "Search models",
+      "m236": "Search models or providers",
+      "m237": "All providers",
+      "m238": "Input $",
+      "m239": "Output $",
+      "m240": " models. Pricing fields apply to token-based models.",
+      "m241": "Add model",
+      "m242": "Add provider model",
+      "m243": "Use the exact model ID and provider identifier used by your integration.",
+      "m244": "Model ID",
+      "m245": "e.g. openai/text-embedding-3-small",
+      "m246": "Provider",
+      "m247": "Select provider",
+      "m248": "Add a provider API key first to select its provider here.",
+      "m249": "Free model",
+      "m250": "Input / 1K tokens (USD)",
+      "m251": "Output / 1K tokens (USD)",
+      "m252": "Free models are saved with zero input and output prices.",
+      "m253": "Providers come from your saved provider API keys. Non-token pricing is managed by the provider integration.",
+      "m254": "AI request graphs",
+      "m255": "All filtered parents across every table page. Daily buckets use UTC creation dates and current statuses. Dashboard API traffic and child attempts are not additional parent requests.",
+      "m256": "Measured timing: ",
+      "m257": " / ",
+      "m258": " parents. Input/output token samples: ",
+      "m259": ". Cost samples: ",
+      "m260": "; complete observed cost: ",
+      "m261": " parents. Tokens cover latest final responses, not all provider attempts or customer billing. Known costs are estimates, not a full provider bill.",
+      "m262": "Daily metric",
+      "m263": "Counts by model, provider, type and status",
+      "m264": "Exact daily figures and sample counts",
+      "m265": "Waiting for confirmation",
+      "m266": "Sign out"
+    },
+    "toggleTheme": "Toggle color theme",
+    "loadingPage": "Loading page…",
+    "refreshing": "Refreshing…"
+  },
+  "blogJsonImport": {
+    "help": "Paste a Tiptap document object (maximum 1 MiB). Import replaces the article content only. Changes remain unsaved until you save the post.",
+    "guide": "Accepted JSON format and example",
+    "format": "Paste one JSON object with type \"doc\" and a content array. Use exact, case-sensitive node names. Do not include Markdown fences, HTML, custom nodes or placeholder nodes.",
+    "nodes": "Supported nodes: {names}",
+    "marks": "Supported text marks: {names}",
+    "limits": "Limits: 1 MiB of JSON, 200,000 text characters, 8,000 nodes and 24 nested levels.",
+    "media": "For image/audio nodes, use attrs.src with the public URL of media uploaded in the selected app. Do not add asset_id or Base64 data. YouTube URLs are supported; uploaded videos and files use text with a link mark. Media ownership is checked when the post is saved.",
+    "attributes": "Common attributes: heading → level (1–6); orderedList → start, type; codeBlock → language; image → src, alt, title, width, height; link mark → href, target, rel, class, title. Use content arrays for child nodes and marks arrays on text nodes.",
+    "rejected": "Cannot import this JSON. {reason} Your current article has not been replaced. Correct the pasted JSON and try again.",
+    "location": "JSON path: {path}",
+    "value": "Node, mark or field: {value}",
+    "allowed": "Allowed attributes here: {names}",
+    "noAttributes": "none",
+    "reasons": {
+      "document-too-large": "The JSON exceeds 1 MiB. Shorten it and remove embedded Base64 data.",
+      "invalid-json-syntax": "The JSON syntax is invalid. Check quotes, commas and brackets. Paste JSON only, without Markdown fences or comments.",
+      "expected-a-tiptap-document-object": "The root must be one object with type \"doc\" and a content array. Do not paste HTML, a bare array or a post/API wrapper.",
+      "document-structure-limit": "The document exceeds 8,000 nodes or 24 nested levels. Split or simplify it.",
+      "unsupported-document-node": "This node type is not supported. Replace or remove it using the supported node names below; placeholders and custom nodes are not accepted.",
+      "unsupported-document-field": "This field is not supported. Nodes may contain only type, attrs, content, text and marks.",
+      "unsupported-attributes": "These attributes are not supported for this node. Remove them or use the allowed attributes shown below.",
+      "invalid-table-span": "Table colspan and rowspan must be whole numbers from 1 to 1,000.",
+      "invalid-table-column-widths": "colwidth must be null or an array with one whole number (0–100,000) per colspan.",
+      "invalid-cell-alignment": "Table cell align must be left, center or right.",
+      "invalid-text": "A text node needs a non-empty text string without unsupported control characters. Use an empty paragraph for a blank line.",
+      "too-much-text": "The document exceeds 200,000 text characters. Shorten it or split it into separate posts.",
+      "invalid-text-node": "Only nodes with type \"text\" can have a text field. Other nodes use a content array.",
+      "invalid-heading": "A heading needs attrs.level as a whole number from 1 to 6.",
+      "invalid-list-start": "orderedList attrs.start must be a whole number from 1 to 100,000.",
+      "invalid-list-type": "orderedList attrs.type must be \"1\", \"a\", \"A\", \"i\" or \"I\".",
+      "invalid-code-language": "codeBlock attrs.language must be a plain-text string of at most 40 characters.",
+      "invalid-media-url": "Media needs an HTTPS src URL. Upload image/audio in the selected app first and use its public URL; Base64 and Data URLs are not accepted.",
+      "invalid-url": "Use an HTTPS URL without credentials, spaces or control characters. Links may also use /site-relative paths or #anchors.",
+      "invalid-media-dimension": "Media width and height must be positive whole numbers up to 100,000.",
+      "invalid-image-text": "Image alt and title must be text strings of at most 1,000 characters.",
+      "invalid-audio-option": "Audio controls, autoplay, loop, muted and disableremoteplayback must be true or false.",
+      "invalid-audio-preload": "Audio preload must be none, metadata or auto.",
+      "invalid-audio-cors-option": "Audio crossorigin must be empty, anonymous or use-credentials.",
+      "invalid-audio-controls": "Audio controlslist must be text of at most 100 characters.",
+      "invalid-youtube-url": "Use an HTTPS YouTube watch, embed or youtu.be URL with a valid 11-character video ID.",
+      "invalid-youtube-start": "YouTube attrs.start must be a whole number from 0 to 86,400 seconds.",
+      "invalid-marks": "Marks must be an array of at most 8 items on a text node only.",
+      "unsupported-mark": "This text mark is not supported. Use one of the supported mark names below.",
+      "invalid-mark-attributes": "Mark attrs must be a JSON object.",
+      "invalid-link": "A link mark needs attrs.href and may use target, rel, class and title only.",
+      "invalid-link-title": "Link title must be plain text of at most 1,000 characters.",
+      "unsupported-mark-attributes": "This mark does not accept attributes. Remove its attrs object.",
+      "invalid-children": "This node has invalid content. Content must be an array; leaf nodes cannot contain child nodes.",
+      "invalid-child": "Every content item must be a node object with a supported type.",
+      "invalid-structure": "The node nesting or formatting is invalid. Put text inside paragraphs/headings, and list items inside lists; each list item starts with a paragraph. Use the example below."
+    }
+  }
+}
