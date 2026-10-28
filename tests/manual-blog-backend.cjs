@@ -15,7 +15,7 @@ createServer(async(req,res)=>{
  if(resource==='settings')return send({public_blog_url:'https://example.test/en/blog'});
  if(resource==='categories')return send({items:cats[key],total:cats[key].length,page:1,page_size:100});
  if(resource==='assets')return send({assets:[],total:0});
- if(req.method==='GET')return id?send({post:posts[key].find(p=>p.id===Number(id))}):send({items:posts[key],total:posts[key].length,page:1,page_size:20});
+ if(req.method==='GET')return id?send({post:posts[key].find(p=>p.id===Number(id))}):send({items:posts[key],total:posts[key].length,page:1,page_size:20,scope:"all",counts:{mine:posts[key].length,total:posts[key].length}});
  let raw=''; for await(const chunk of req)raw+=chunk;
  const body=JSON.parse(raw),existing=posts[key].find(p=>p.id===Number(id));
  if(existing&&existing.version!==body.version)return send({detail:'This post changed. Reload it before saving.'},409);

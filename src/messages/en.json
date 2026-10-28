@@ -1,4 +1,42 @@
 {
+  "blog": {
+    "blogs": "Blogs",
+    "newBlog": "New blog",
+    "editPost": "Edit post",
+    "openPost": "Open post",
+    "viewPublished": "View published post",
+    "listDescription": "Browse saved articles across your websites. Open a post to edit, preview or publish it.",
+    "title": "Title",
+    "website": "Website",
+    "websiteCounts": "Saved posts by website",
+    "ownAndTotal": "Your posts: {mine}; website total: {total}",
+    "pageForWebsite": "Page for {website}",
+    "status": "Status",
+    "createdBy": "Created by",
+    "publishedDate": "Published date",
+    "actions": "Actions",
+    "actionsFor": "Actions for {title}",
+    "allWebsites": "All websites",
+    "allStatuses": "All statuses",
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "searchTitle": "Search title or slug",
+    "search": "Search",
+    "refresh": "Refresh",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "{page} / {total}",
+    "postCount": "{count, plural, one {# saved post} other {# saved posts}}",
+    "noPosts": "No saved posts match these filters.",
+    "noWebsites": "No configured blog websites are available for your account.",
+    "loading": "Loading blog workspace...",
+    "loadingPosts": "Loading saved posts...",
+    "postsError": "Posts could not be loaded.",
+    "loadError": "Unable to load the blog workspace",
+    "loadErrorHint": "The service may be unavailable or your account may not have access. Try loading this page again.",
+    "retry": "Retry"
+  },
   "common": {
     "home": "Home",
     "edit": "Edit",
@@ -125,6 +163,7 @@
       "overview": "Overview",
       "endpoints": "API endpoints",
       "api-keys": "API keys",
+      "prompts": "Prompts",
       "models": "Provider models",
       "apps": "Authorized apps",
       "activity": "Activity",
@@ -143,6 +182,19 @@
       "collections": "API collections",
       "analytics": "Usage analytics",
       "recentActivity": "Recent activity"
+    },
+    "teamChildren": {
+      "requests": "Access requests",
+      "members": "Members",
+      "invite": "Invite a member"
+    },
+    "blogChildren": {
+      "new": "New blog",
+      "posts": "Blogs"
+    },
+    "promptsChildren": {
+      "list": "All Prompts",
+      "new": "New Prompt"
     }
   },
   "header": {

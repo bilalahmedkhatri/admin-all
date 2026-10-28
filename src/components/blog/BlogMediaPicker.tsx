@@ -108,6 +108,9 @@ export default function BlogMediaPicker({
       className="mx-4 max-h-full max-w-3xl overflow-y-auto p-6 sm:p-8"
     >
       <div
+        // Browser translators must not replace React-owned text during upload transitions.
+        translate="no"
+        className="notranslate"
         role="dialog"
         aria-modal="true"
         aria-labelledby="blog-media-title"
@@ -256,7 +259,11 @@ export default function BlogMediaPicker({
                 className="cursor-pointer disabled:cursor-not-allowed [&_.animate-spin]:border-white/40 [&_.animate-spin]:border-t-white [&>span]:text-white"
                 startIcon={busy ? undefined : <FaUpload aria-hidden="true" />}
               >
-                {busy ? <Loading label="Processing & uploading..." /> : "Upload"}
+                {busy ? (
+                  <Loading label="Processing & uploading..." />
+                ) : (
+                  <span>Upload</span>
+                )}
               </Button>
               <Button
                 variant="outline"

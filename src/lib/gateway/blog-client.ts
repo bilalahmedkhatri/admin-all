@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { ImageAttribution } from "@/components/blog/imageAttribution";
+import type { BlogApp } from "./blog";
 export const categorySchema = z.object({
   id: z.number().int().positive(),
   name: z.string(),
@@ -26,10 +27,22 @@ export const postSchema = z.object({
   content_json: z.record(z.unknown()).optional(),
   metadata_json: z.record(z.unknown()),
   updated_at: z.string(),
+  created_at: z.string().optional(),
+  published_at: z.string().nullable().optional(),
 });
 export type BlogPost = z.infer<typeof postSchema>;
 export type BlogCategory = z.infer<typeof categorySchema>;
-export type BlogAsset = z.infer<typeof assetSchema> & { alt_text?: string; attribution?: ImageAttribution };
+export type BlogAsset = z.infer<typeof assetSchema> & {
+  alt_text?: string;
+  attribution?: ImageAttribution;
+};
+export type BlogEditorInitialData = {
+  app: BlogApp;
+  post: BlogPost;
+  categories: BlogCategory[];
+  assets: BlogAsset[];
+  publicBlogUrl: string | null;
+};
 export class BlogRequestError extends Error {
   constructor(
     message: string,
@@ -68,6 +81,11 @@ export const postListSchema = z.object({
   total: z.number(),
   page: z.number(),
   page_size: z.number(),
+  scope: z.enum(["own", "all"]),
+  counts: z.object({
+    mine: z.number().int().nonnegative(),
+    total: z.number().int().nonnegative(),
+  }),
 });
 export const categoryListSchema = z.object({
   items: z.array(categorySchema),

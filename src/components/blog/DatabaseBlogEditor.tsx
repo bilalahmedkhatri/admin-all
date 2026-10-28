@@ -1,17 +1,12 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useEditor, EditorContent, type JSONContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { z } from "zod";
 import ComponentCard from "@/components/common/ComponentCard";
-import {
-  FaEye,
-  FaPaperPlane,
-  FaPlus,
-  FaSave,
-  FaSyncAlt,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaEye, FaPaperPlane, FaPlus, FaSave } from "react-icons/fa";
 import {
   ArticlePreview,
   CoverImageCard,
@@ -29,8 +24,13 @@ import {
   insertBlogMedia,
 } from "./extensions/blogMedia";
 import BlogMediaPicker from "./BlogMediaPicker";
-import { attributedImageContent, savedCoverDetails, emptyAttribution, type CoverImageDetails } from "./imageAttribution";
-import BlogPostBrowser from "./BlogPostBrowser";
+import {
+  attributedImageContent,
+  savedCoverDetails,
+  emptyAttribution,
+  type CoverImageDetails,
+} from "./imageAttribution";
+import BlogPageHeader from "./BlogPageHeader";
 import BlogAuthorCard from "./BlogAuthorCard";
 import { Modal } from "@/components/ui/modal";
 import { blogCatalogSchema, type BlogApp } from "@/lib/gateway/blog";
@@ -38,7 +38,6 @@ import BlogEditorToolbar from "./BlogEditorToolbar";
 import { blogTables } from "./extensions/blogTables";
 import {
   postSchema,
-  postListSchema,
   categoryListSchema,
   assetSchema,
   authorProfileSchema,
@@ -48,13 +47,13 @@ import {
   type BlogCategory,
   type BlogAsset,
   BlogRequestError,
+  type BlogEditorInitialData,
 } from "@/lib/gateway/blog-client";
 
-const noop = () => {};
+const noop = () => { };
 const empty: JSONContent = { type: "doc", content: [{ type: "paragraph" }] };
 const fieldClass =
   "mt-1 block w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100";
-const pageSchema = postListSchema;
 export default function DatabaseBlogEditor({
   initialProfile,
   onUnsavedChange = noop,
@@ -62,6 +61,7 @@ export default function DatabaseBlogEditor({
   canCreate,
   canUpdate,
   canPublish,
+  initialPost,
 }: {
   initialProfile: { name: string; email: string };
   onUnsavedChange?: (dirty: boolean) => void;
@@ -69,14 +69,20 @@ export default function DatabaseBlogEditor({
   canCreate: boolean;
   canUpdate: boolean;
   canPublish: boolean;
+  initialPost?: BlogEditorInitialData;
 }) {
-  const [appKey, setAppKey] = useState("");
-  const [apps, setApps] = useState<BlogApp[]>([]);
+  const t = useTranslations("blog");
+  const router = useRouter();
+  const [appKey, setAppKey] = useState(initialPost?.app.key ?? "");
+  const [apps, setApps] = useState<BlogApp[]>(
+    initialPost ? [initialPost.app] : [],
+  );
   const [targetOpen, setTargetOpen] = useState(false);
   const [catalogLoading, setCatalogLoading] = useState(false);
   const [targetStatus, setTargetStatus] = useState<BlogPost["status"]>("draft");
-  const [status, setStatus] = useState<BlogPost["status"]>("draft");
-  const [browserOpen, setBrowserOpen] = useState(false);
+  const [status, setStatus] = useState<BlogPost["status"]>(
+    initialPost?.post.status ?? "draft",
+  );
   const [newCategory, setNewCategory] = useState(false);
   const [preview, setPreview] = useState<JSONContent | null>(null);
   const [coverOpen, setCoverOpen] = useState(false);
@@ -92,17 +98,22 @@ export default function DatabaseBlogEditor({
     },
     [appKey],
   );
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<BlogCategory[]>([]);
-  const [assets, setAssets] = useState<BlogAsset[]>([]);
-  const [page, setPage] = useState(1),
-    [total, setTotal] = useState(0);
-  const [title, setTitle] = useState(""),
-    [category, setCategory] = useState(""),
-    [excerpt, setExcerpt] = useState("");
-  const [locale, setLocale] = useState("en"),
-    [cover, setCover] = useState<number | null>(null);
+  const [post, setPost] = useState<BlogPost | null>(initialPost?.post ?? null);
+  const [categories, setCategories] = useState<BlogCategory[]>(
+    initialPost?.categories ?? [],
+  );
+  const [assets, setAssets] = useState<BlogAsset[]>(initialPost?.assets ?? []);
+  const [title, setTitle] = useState(initialPost?.post.title ?? ""),
+    [category, setCategory] = useState(
+      initialPost?.categories.find(
+        (item) => item.id === initialPost.post.category_id,
+      )?.name ?? "",
+    ),
+    [excerpt, setExcerpt] = useState(initialPost?.post.excerpt ?? "");
+  const [locale, setLocale] = useState(initialPost?.post.locale ?? "en"),
+    [cover, setCover] = useState<number | null>(
+      initialPost?.post.cover_asset_id ?? null,
+    );
   const [busy, setBusy] = useState(false),
     [loading, setLoading] = useState(false),
     [dirty, setDirty] = useState(false);
@@ -118,17 +129,31 @@ export default function DatabaseBlogEditor({
     complete: false,
     missing_fields: ["name", "avatar_url", "designation", "description"],
   });
-  const [coverDetails, setCoverDetails] = useState<CoverImageDetails | null>(null);
-  const [canonical, setCanonical] = useState<string | null>(null);
+  const [coverDetails, setCoverDetails] = useState<CoverImageDetails | null>(
+    initialPost
+      ? savedCoverDetails(
+        initialPost.post.metadata_json,
+        initialPost.post.cover_asset_id,
+      )
+      : null,
+  );
+  const [canonical, setCanonical] = useState<string | null>(
+    initialPost?.publicBlogUrl ?? null,
+  );
   const [categoryChanged, setCategoryChanged] = useState(false);
   const [uncertainCreate, setUncertainCreate] = useState(false);
   const writable = post
     ? canUpdate && (post.status !== "published" || canPublish)
     : canCreate;
+  const [initialDocument] = useState(() =>
+    initialPost?.post.content_json
+      ? standardBlogDocument(initialPost.post.content_json as JSONContent)
+      : empty,
+  );
   const markDirty = useCallback(() => setDirty(true), []);
   const editor = useEditor({
     extensions: [StarterKit, blogTables, blogImage, blogAudio, blogYoutube],
-    content: empty,
+    content: initialDocument,
     immediatelyRender: false,
     editable: false,
     onUpdate: markDirty,
@@ -142,11 +167,11 @@ export default function DatabaseBlogEditor({
   useEffect(() => {
     onBusyChange(
       busy ||
-        loading ||
-        mediaOpen ||
-        dialogOpen ||
-        coverOpen ||
-        Boolean(preview),
+      loading ||
+      mediaOpen ||
+      dialogOpen ||
+      coverOpen ||
+      Boolean(preview),
     );
     return () => onBusyChange(false);
   }, [busy, loading, mediaOpen, dialogOpen, coverOpen, preview, onBusyChange]);
@@ -161,33 +186,56 @@ export default function DatabaseBlogEditor({
     const warn = (event: BeforeUnloadEvent) => {
       event.preventDefault();
     };
+    const guardNavigation = (event: MouseEvent) => {
+      if (
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const anchor =
+        event.target instanceof Element ? event.target.closest("a") : null;
+      if (
+        !anchor ||
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download")
+      )
+        return;
+      const next = new URL(anchor.href, window.location.href);
+      if (
+        next.origin !== window.location.origin ||
+        next.pathname + next.search ===
+        window.location.pathname + window.location.search
+      )
+        return;
+      if (!window.confirm("Discard unsaved changes?")) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
     window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
+    document.addEventListener("click", guardNavigation, true);
+    return () => {
+      window.removeEventListener("beforeunload", warn);
+      document.removeEventListener("click", guardNavigation, true);
+    };
   }, [dirty]);
-  const refresh = useCallback(
-    async (nextPage: number) => {
-      const version = ++refreshVersion.current;
-      const data = await blogRequest(appKey, "posts", pageSchema, undefined, {
-        page: String(nextPage),
-      });
-      if (refreshVersion.current !== version) return;
-      setPosts(data.items);
-      setTotal(data.total);
-      setPage(nextPage);
-    },
-    [appKey],
-  );
   useEffect(() => {
     let active = true;
     const pending = profileRequest.current;
     // Keep this mount's loaded profile through Fast Refresh. Profile saves update
     // local state directly; replaying an old response must not overwrite them.
     if (pending?.email === initialProfile.email && pending.loaded) return;
-    const entry = pending?.email === initialProfile.email ? pending : {
-      email: initialProfile.email,
-      request: blogRequest("", "profile", authorProfileSchema),
-      loaded: false,
-    };
+    const entry =
+      pending?.email === initialProfile.email
+        ? pending
+        : {
+          email: initialProfile.email,
+          request: blogRequest("", "profile", authorProfileSchema),
+          loaded: false,
+        };
     profileRequest.current = entry;
     entry.request
       .then((author) => {
@@ -200,9 +248,13 @@ export default function DatabaseBlogEditor({
         if (entry.loaded) return;
         if (profileRequest.current === entry) profileRequest.current = null;
         if (active)
-          setError("Your author profile could not be loaded. Retry by reloading the page.");
+          setError(
+            "Your author profile could not be loaded. Retry by reloading the page.",
+          );
       });
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [initialProfile.email]);
   function updateProfile(author: AuthorProfile) {
     const entry = profileRequest.current;
@@ -238,7 +290,7 @@ export default function DatabaseBlogEditor({
         setCategory("");
         setCategoryChanged(true);
         setCover(null);
-    setCoverDetails(null);
+        setCoverDetails(null);
       }
       setAppKey(key);
       return cats.items;
@@ -277,7 +329,9 @@ export default function DatabaseBlogEditor({
     setExcerpt(saved.excerpt);
     setLocale(saved.locale);
     setCover(saved.cover_asset_id);
-    setCoverDetails(savedCoverDetails(saved.metadata_json, saved.cover_asset_id));
+    setCoverDetails(
+      savedCoverDetails(saved.metadata_json, saved.cover_asset_id),
+    );
     setCategory(
       categoryOptions.find((item) => item.id === saved.category_id)?.name || "",
     );
@@ -290,41 +344,6 @@ export default function DatabaseBlogEditor({
       );
     setDirty(false);
   }
-  async function load(
-    id: number,
-    target = appKey,
-    confirmed = false,
-    categoryOptions = categories,
-  ) {
-    if (
-      busy ||
-      (!confirmed && dirty && !window.confirm("Discard unsaved changes?"))
-    )
-      return;
-    refreshVersion.current++;
-    setBusy(true);
-    setError("");
-    try {
-      const data = await blogRequest(
-        target,
-        "posts",
-        z.object({ post: postSchema }),
-        undefined,
-        { id: String(id) },
-      );
-      apply(data.post, categoryOptions);
-      setUncertainCreate(false);
-      setNotice("");
-    } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : "The blog request could not be completed.",
-      );
-    } finally {
-      setBusy(false);
-    }
-  }
   function newPost() {
     if (busy || (dirty && !window.confirm("Discard unsaved changes?"))) return;
     refreshVersion.current++;
@@ -335,8 +354,6 @@ export default function DatabaseBlogEditor({
     setAppKey("");
     setCategories([]);
     setAssets([]);
-    setPosts([]);
-    setTotal(0);
     setCategoryChanged(false);
     setTitle("");
     setExcerpt("");
@@ -349,6 +366,7 @@ export default function DatabaseBlogEditor({
     setUncertainCreate(false);
     editor?.commands.setContent(empty, { emitUpdate: false });
     setDirty(false);
+    if (initialPost) router.push("/blog-editor/new");
   }
   async function save(status: "draft" | "published" | "archived") {
     if (!editor || busy || loading || !writable || uncertainCreate) return;
@@ -416,25 +434,16 @@ export default function DatabaseBlogEditor({
           ? "Post saved."
           : "Post saved. The activity log could not be recorded.",
       );
-      // Refresh independent data in parallel without keeping the editor locked.
-      void Promise.all([
-        blogRequest(appKey, "categories", categoryListSchema, undefined, {
-          page_size: "100",
-        }),
-        blogRequest(appKey, "posts", pageSchema, undefined, { page: "1" }),
-      ])
-        .then(([cats, list]) => {
-          if (refreshVersion.current !== version) return;
-          setCategories(cats.items);
-          setPosts(list.items);
-          setTotal(list.total);
-          setPage(1);
+      // Refresh categories without keeping the editor locked after saving.
+      void blogRequest(appKey, "categories", categoryListSchema, undefined, {
+        page_size: "100",
+      })
+        .then((cats) => {
+          if (refreshVersion.current === version) setCategories(cats.items);
         })
         .catch(() => {
           if (refreshVersion.current === version)
-            setNotice(
-              "Post saved. Refresh the list to load the latest records.",
-            );
+            setNotice("Post saved. Categories could not be refreshed.");
         });
     } catch (error) {
       setError(
@@ -470,9 +479,9 @@ export default function DatabaseBlogEditor({
   const coverSrc =
     coverAsset?.public_url ||
     (cover &&
-    post?.cover_asset_id === cover &&
-    typeof storedCover === "string" &&
-    storedCover.startsWith("https://")
+      post?.cover_asset_id === cover &&
+      typeof storedCover === "string" &&
+      storedCover.startsWith("https://")
       ? storedCover
       : undefined);
   const saveDisabled =
@@ -489,72 +498,66 @@ export default function DatabaseBlogEditor({
       className="min-w-0 [&_[role=group]_button]:p-0 [&_button]:px-3 [&_button]:py-2 [&_button]:text-xs [&_input]:py-2 [&_select]:py-2"
       aria-busy={busy || loading}
     >
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-theme-xs dark:border-gray-800 dark:bg-gray-900">
-        <div className="flex min-w-0 items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-          <span>{"Saved posts"}</span>
-          <FaChevronRight
-            aria-hidden="true"
-            className="shrink-0 text-theme-xs rtl:rotate-180"
-          />
-          <h1 className="font-semibold text-gray-900 dark:text-white">
-            {post ? "Edit post" : "Create post"}
-          </h1>
-          {appKey && (
-            <span className="rounded-full bg-brand-50 px-2 py-1 text-xs text-brand-600 dark:bg-brand-500/15 dark:text-brand-300">
-              {apps.find((app) => app.key === appKey)?.label || appKey}
-            </span>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={busy || !canCreate}
-            onClick={newPost}
-            startIcon={<FaPlus aria-hidden="true" />}
-            className="cursor-pointer"
-          >
-            {"New blog"}
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={saveDisabled}
-            onClick={() => save(status)}
-            startIcon={<FaSave aria-hidden="true" />}
-            className="cursor-pointer"
-          >
-            {"Save changes"}
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            disabled={busy || !editor}
-            onClick={() => editor && setPreview(editor.getJSON())}
-            startIcon={<FaEye aria-hidden="true" />}
-            className="cursor-pointer"
-          >
-            {"Preview"}
-          </Button>
-          {canPublish && (
+      <BlogPageHeader
+        title={post ? t("editPost") : t("newBlog")}
+        breadcrumb={{ label: t("blogs"), href: "/blog-editor/posts" }}
+        context={
+          appKey
+            ? apps.find((app) => app.key === appKey)?.label || appKey
+            : undefined
+        }
+        actions={
+          <>
             <Button
               size="sm"
-              disabled={
-                saveDisabled ||
-                !profile.complete ||
-                (Boolean(appKey) && !canonical)
-              }
-              onClick={() =>
-                save(post?.status === "published" ? "draft" : "published")
-              }
-              startIcon={<FaPaperPlane aria-hidden="true" />}
+              variant="outline"
+              disabled={busy || !canCreate}
+              onClick={newPost}
+              startIcon={<FaPlus aria-hidden="true" />}
               className="cursor-pointer"
             >
-              {post?.status === "published" ? "Move to draft" : "Publish"}
+              {"New blog"}
             </Button>
-          )}
-        </div>
-      </header>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={saveDisabled}
+              onClick={() => save(status)}
+              startIcon={<FaSave aria-hidden="true" />}
+              className="cursor-pointer"
+            >
+              {"Save changes"}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={busy || !editor}
+              onClick={() => editor && setPreview(editor.getJSON())}
+              startIcon={<FaEye aria-hidden="true" />}
+              className="cursor-pointer"
+            >
+              {"Preview"}
+            </Button>
+            {canPublish && (
+              <Button
+                size="sm"
+                disabled={
+                  saveDisabled ||
+                  !profile.complete ||
+                  (Boolean(appKey) && !canonical)
+                }
+                onClick={() =>
+                  save(post?.status === "published" ? "draft" : "published")
+                }
+                startIcon={<FaPaperPlane aria-hidden="true" />}
+                className="cursor-pointer"
+              >
+                {post?.status === "published" ? "Move to draft" : "Publish"}
+              </Button>
+            )}
+          </>
+        }
+      />
       {error && (
         <p
           role="alert"
@@ -590,7 +593,7 @@ export default function DatabaseBlogEditor({
                     markDirty();
                   }}
                 />
-                <span className="pointer-events-none absolute top-2 left-3 font-semibold tracking-wider text-gray-400 uppercase transition-colors peer-focus:text-gray-600 dark:text-gray-500 dark:peer-focus:text-gray-300">
+                <span className="pointer-events-none absolute start-3 top-2 font-semibold tracking-wider text-gray-400 uppercase transition-colors peer-focus:text-gray-600 dark:text-gray-500 dark:peer-focus:text-gray-300">
                   Title
                 </span>
               </label>
@@ -609,8 +612,8 @@ export default function DatabaseBlogEditor({
                     appKey
                       ? setMediaOpen(true)
                       : setError(
-                          "Save a draft and choose an app before uploading media.",
-                        )
+                        "Save a draft and choose an app before uploading media.",
+                      )
                   }
                   onDialogChange={setDialogOpen}
                 />
@@ -645,71 +648,6 @@ export default function DatabaseBlogEditor({
                 />
               </label>
             </fieldset>
-          </EditorPanel>
-          <EditorPanel title={"Saved posts"}>
-            <Button
-              variant="outline"
-              disabled={busy || loading}
-              onClick={() => setBrowserOpen(true)}
-            >
-              Browse saved posts
-            </Button>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {`${total} saved posts`}
-              </span>
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={busy || !appKey}
-                onClick={() =>
-                  refresh(page).catch((error) => setError(error.message))
-                }
-                startIcon={<FaSyncAlt aria-hidden="true" />}
-                className="cursor-pointer"
-              >
-                {"Refresh list"}
-              </Button>
-            </div>
-            <ul className="space-y-3">
-              {posts.map((item) => (
-                <li key={item.id}>
-                  <button
-                    disabled={busy}
-                    className="w-full cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-start text-sm text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 disabled:cursor-not-allowed dark:border-gray-700 dark:text-gray-300 dark:hover:bg-brand-500/10"
-                    onClick={() => load(item.id)}
-                  >
-                    {item.title} | {item.status}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {!posts.length && (
-              <p className="text-sm text-gray-500">
-                Use Browse saved posts to open an existing article.
-              </p>
-            )}
-            <div className="flex gap-3">
-              <Button
-                variant="outline"
-                disabled={busy || page === 1}
-                onClick={() =>
-                  refresh(page - 1).catch((error) => setError(error.message))
-                }
-              >
-                {"Previous"}
-              </Button>
-              <span>{page}</span>
-              <Button
-                variant="outline"
-                disabled={busy || page * 20 >= total}
-                onClick={() =>
-                  refresh(page + 1).catch((error) => setError(error.message))
-                }
-              >
-                {"Next"}
-              </Button>
-            </div>
           </EditorPanel>
         </div>
         <aside className="min-w-0 space-y-6">
@@ -840,12 +778,12 @@ export default function DatabaseBlogEditor({
               appKey
                 ? setCoverOpen(true)
                 : setError(
-                    "Save a draft and choose an app before uploading a cover.",
-                  )
+                  "Save a draft and choose an app before uploading a cover.",
+                )
             }
             onRemove={() => {
               setCover(null);
-    setCoverDetails(null);
+              setCoverDetails(null);
               markDirty();
             }}
           >
@@ -987,19 +925,6 @@ export default function DatabaseBlogEditor({
           </div>
         </Modal>
       )}
-      {browserOpen && (
-        <BlogPostBrowser
-          onClose={() => setBrowserOpen(false)}
-          onChoose={async (key, id) => {
-            if (dirty && !window.confirm("Discard unsaved changes?")) return;
-            const prepared = await prepareApp(key);
-            if (prepared) {
-              await load(id, key, true, prepared);
-              setBrowserOpen(false);
-            }
-          }}
-        />
-      )}
       {mediaOpen && (
         <BlogMediaPicker
           appKey={appKey}
@@ -1011,20 +936,30 @@ export default function DatabaseBlogEditor({
         <BlogMediaPicker
           appKey={appKey}
           imagesOnly
-          initialAsset={cover && coverSrc ? {
-            id: cover, public_url: coverSrc, media_type: coverAsset?.media_type ?? "image/jpeg",
-            original_filename: coverAsset?.original_filename ?? "Current cover",
-            size_bytes: coverAsset?.size_bytes ?? 0,
-            alt_text: coverDetails?.alt_text ?? "",
-            attribution: coverDetails?.attribution ?? emptyAttribution,
-          } : undefined}
+          initialAsset={
+            cover && coverSrc
+              ? {
+                id: cover,
+                public_url: coverSrc,
+                media_type: coverAsset?.media_type ?? "image/jpeg",
+                original_filename:
+                  coverAsset?.original_filename ?? "Current cover",
+                size_bytes: coverAsset?.size_bytes ?? 0,
+                alt_text: coverDetails?.alt_text ?? "",
+                attribution: coverDetails?.attribution ?? emptyAttribution,
+              }
+              : undefined
+          }
           onInsert={(asset) => {
             setAssets((items) => [
               asset,
               ...items.filter((item) => item.id !== asset.id),
             ]);
             setCover(asset.id);
-            setCoverDetails({alt_text: asset.alt_text ?? "", attribution: asset.attribution ?? emptyAttribution});
+            setCoverDetails({
+              alt_text: asset.alt_text ?? "",
+              attribution: asset.attribution ?? emptyAttribution,
+            });
             markDirty();
           }}
           onClose={() => setCoverOpen(false)}

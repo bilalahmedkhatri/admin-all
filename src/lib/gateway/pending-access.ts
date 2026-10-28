@@ -21,7 +21,7 @@ export function pendingAccess(team: {
       verification: r.email_verified
         ? "Verified email"
         : "Awaiting email verification",
-      reviewPath: `/users#request-${r.id}`,
+      reviewPath: `/users/requests#request-${r.id}`,
     })),
     ...team.users
       .filter(
@@ -31,7 +31,7 @@ export function pendingAccess(team: {
         email: u.email,
         name: u.name,
         verification: "Membership approval",
-        reviewPath: `/users#member-${u.id}`,
+        reviewPath: `/users/members#member-${u.id}`,
       })),
   ];
 }

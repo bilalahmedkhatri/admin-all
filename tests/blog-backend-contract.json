@@ -10,14 +10,17 @@
         "category_id": 1,
         "content_schema_version": 1,
         "metadata_json": {
+          "created_by_membership_id": 1,
           "schema_version": 1,
           "title": "Contract fixture",
           "description": "Isolated contract example.",
           "canonical_url": "https://azeemlab.test/en/blog/contract-fixture",
           "locale": "en",
           "author": {
-            "name": "Admin"
+            "name": "Admin",
+            "jobTitle": "Editor"
           },
+          "author_description": "An experienced author writing about secure applications.",
           "robots": {
             "index": false,
             "follow": false
@@ -36,24 +39,30 @@
             "image": null
           },
           "published_at": null,
-          "modified_at": "2026-10-23T23:56:26.814976+00:00",
+          "modified_at": "2026-10-27T10:29:47.590425+00:00",
           "word_count": 3,
           "json_ld": null
         },
         "author_name": "Admin",
-        "author_designation": null,
-        "author_avatar_url": null,
+        "author_designation": "Editor",
+        "author_avatar_url": "https://media.test/author.jpg",
         "cover_asset_id": null,
         "status": "draft",
         "version": 1,
-        "created_at": "2026-10-23T23:56:26.814976",
-        "updated_at": "2026-10-23T23:56:26.814976",
-        "published_at": null
+        "created_at": "2026-10-27T10:29:47.590425",
+        "updated_at": "2026-10-27T10:29:47.590425",
+        "published_at": null,
+        "author_description": "An experienced author writing about secure applications."
       }
     ],
     "total": 1,
     "page": 1,
-    "page_size": 20
+    "page_size": 20,
+    "scope": "all",
+    "counts": {
+      "mine": 1,
+      "total": 1
+    }
   },
   "categories": {
     "items": [
@@ -62,8 +71,8 @@
         "name": "Testing",
         "normalized_name": "testing",
         "slug": "testing",
-        "created_at": "2026-10-23T23:56:26",
-        "updated_at": "2026-10-23T23:56:26"
+        "created_at": "2026-10-27T10:29:47",
+        "updated_at": "2026-10-27T10:29:47"
       }
     ],
     "total": 1,
@@ -100,14 +109,17 @@
       },
       "content_schema_version": 1,
       "metadata_json": {
+        "created_by_membership_id": 1,
         "schema_version": 1,
         "title": "Contract fixture",
         "description": "Isolated contract example.",
         "canonical_url": "https://azeemlab.test/en/blog/contract-fixture",
         "locale": "en",
         "author": {
-          "name": "Admin"
+          "name": "Admin",
+          "jobTitle": "Editor"
         },
+        "author_description": "An experienced author writing about secure applications.",
         "robots": {
           "index": false,
           "follow": false
@@ -126,19 +138,20 @@
           "image": null
         },
         "published_at": null,
-        "modified_at": "2026-10-23T23:56:26.814976+00:00",
+        "modified_at": "2026-10-27T10:29:47.590425+00:00",
         "word_count": 3,
         "json_ld": null
       },
       "author_name": "Admin",
-      "author_designation": null,
-      "author_avatar_url": null,
+      "author_designation": "Editor",
+      "author_avatar_url": "https://media.test/author.jpg",
       "cover_asset_id": null,
       "status": "draft",
       "version": 1,
-      "created_at": "2026-10-23T23:56:26.814976",
-      "updated_at": "2026-10-23T23:56:26.814976",
-      "published_at": null
+      "created_at": "2026-10-27T10:29:47.590425",
+      "updated_at": "2026-10-27T10:29:47.590425",
+      "published_at": null,
+      "author_description": "An experienced author writing about secure applications."
     },
     "audit_recorded": true
   }

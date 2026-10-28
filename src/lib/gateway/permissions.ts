@@ -4,6 +4,7 @@ export const pages = [
   { id: "overview", title: "Overview", path: "/" },
   { id: "endpoints", title: "API endpoints", path: "/endpoints" },
   { id: "api-keys", title: "API keys", path: "/api-keys" },
+  { id: "prompts", title: "Prompts", path: "/Prompts" },
   { id: "blog-editor", title: "Blog Editor", path: "/blog-editor" },
   { id: "models", title: "Provider models", path: "/models", admin: true },
   { id: "apps", title: "Authorized apps", path: "/apps", admin: true },
@@ -30,17 +31,19 @@ export function hasPage(
   page: PageId,
 ) {
   if (user.role === "admin") return true;
-  if (page === "api-keys") return true;
+  if (page === "api-keys" || page === "prompts") return true;
   if (["users", "settings", "models", "requests", "apps"].includes(page))
     return false;
   return (JSON.parse(user.page_permissions || "[]") as string[]).includes(page);
 }
 export function pageForPath(path: string): PageId | undefined {
   if (path === "/overview" || path.startsWith("/overview/")) return "overview";
+  const lowerPath = path.toLowerCase();
   return pages.find((p) =>
     p.path === "/"
       ? path === "/"
-      : path === p.path || path.startsWith(p.path + "/"),
+      : lowerPath === p.path.toLowerCase() ||
+        lowerPath.startsWith(p.path.toLowerCase() + "/"),
   )?.id;
 }
 export function landing(

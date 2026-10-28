@@ -11,6 +11,10 @@ test('editor parses actual isolated FastAPI list and saved-post responses',()=>{
  assert.equal(post.content_json.type,'doc');
  assert.equal(post.version,1);
  assert.equal(post.author_name,'Admin');
+ assert.equal(posts.scope,'all');
+ assert.deepEqual(posts.counts,{mine:1,total:1});
+ const {scope,counts,...legacyList}=fixture.posts;
+ assert.equal(postListSchema.safeParse(legacyList).success,false);
  assert.equal(postListSchema.safeParse({posts:[],total:0}).success,false);
  assert.equal(categoryListSchema.safeParse({categories:[],total:0}).success,false);
 });

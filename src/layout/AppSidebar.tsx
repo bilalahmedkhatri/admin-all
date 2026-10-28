@@ -18,6 +18,7 @@ import {
   UserCircleIcon,
   ListIcon,
   PencilIcon,
+  DocsIcon,
 } from "@/icons";
 import { useTranslations } from "next-intl";
 const icons = {
@@ -31,6 +32,7 @@ const icons = {
   users: GroupIcon,
   settings: LockIcon,
   "blog-editor": PencilIcon,
+  prompts: DocsIcon,
 };
 export default function AppSidebar({
   user,
@@ -46,6 +48,18 @@ export default function AppSidebar({
   } = useSidebar();
   const pathname = usePathname();
   const [overviewOpen, setOverviewOpen] = useState(true);
+  const [teamMenu, setTeamMenu] = useState({
+    path: pathname,
+    open: pathname.startsWith("/users"),
+  });
+  const [blogMenu, setBlogMenu] = useState({
+    path: pathname,
+    open: pathname.startsWith("/blog-editor"),
+  });
+  const [promptsMenu, setPromptsMenu] = useState({
+    path: pathname,
+    open: pathname.toLowerCase().startsWith("/prompts"),
+  });
   const t = useTranslations("sidebar");
   const copy = useTranslations("gateway");
   const expanded = isExpanded || isMobileOpen || isHovered;
@@ -160,6 +174,119 @@ export default function AppSidebar({
                               </Link>
                             </li>
                           ))}
+                      </ul>
+                    )}
+                  </li>
+                );
+              }
+              if (id === "users" || id === "blog-editor" || id === "prompts") {
+                const isBlog = id === "blog-editor";
+                const isPrompts = id === "prompts";
+                const active =
+                  pathname.toLowerCase() === path.toLowerCase() ||
+                  pathname.toLowerCase().startsWith(path.toLowerCase() + "/");
+                const menu = isBlog
+                  ? blogMenu
+                  : isPrompts
+                    ? promptsMenu
+                    : teamMenu;
+                const open = menu.path === pathname ? menu.open : active;
+                const setMenu = isBlog
+                  ? setBlogMenu
+                  : isPrompts
+                    ? setPromptsMenu
+                    : setTeamMenu;
+                const sections = isBlog
+                  ? [
+                      { id: "new", path: "/blog-editor/new" },
+                      { id: "posts", path: "/blog-editor/posts" },
+                    ]
+                  : isPrompts
+                    ? [
+                        { id: "list", path: "/Prompts/list" },
+                        { id: "new", path: "/Prompts/new" },
+                      ]
+                    : [
+                        { id: "requests", path: "/users/requests" },
+                        { id: "members", path: "/users/members" },
+                        { id: "invite", path: "/users/invite" },
+                      ];
+                return (
+                  <li key={id}>
+                    <button
+                      type="button"
+                      aria-label={t("items." + id)}
+                      aria-expanded={expanded && open}
+                      aria-controls={`${id}-submenu`}
+                      onClick={() => setMenu({ path: pathname, open: !open })}
+                      className={
+                        "group menu-item w-full " +
+                        (active ? "menu-item-active" : "menu-item-inactive")
+                      }
+                    >
+                      <span
+                        className={
+                          active
+                            ? "menu-item-icon-active"
+                            : "menu-item-icon-inactive"
+                        }
+                      >
+                        <Icon className="size-6" />
+                      </span>
+                      {expanded && (
+                        <>
+                          <span className="menu-item-text">
+                            {t("items." + id)}
+                          </span>
+                          <ChevronDownIcon
+                            className={
+                              "ms-auto size-4 shrink-0 transition-transform " +
+                              (open ? "rotate-180" : "")
+                            }
+                          />
+                        </>
+                      )}
+                    </button>
+                    {expanded && open && (
+                      <ul
+                        id={`${id}-submenu`}
+                        className="ms-5 mt-2 space-y-1 border-s border-gray-200 ps-4 dark:border-gray-800"
+                      >
+                        {sections.map((section) => (
+                          <li key={section.id}>
+                            <Link
+                              href={section.path}
+                              aria-current={
+                                pathname === section.path ||
+                                (section.id === "posts" &&
+                                  (pathname === "/blog-editor" ||
+                                    pathname.startsWith("/blog-editor/edit/")))
+                                  ? "page"
+                                  : undefined
+                              }
+                              onClick={() => {
+                                if (isMobileOpen) toggleMobileSidebar();
+                              }}
+                              className={
+                                "menu-item text-sm " +
+                                (pathname === section.path ||
+                                (section.id === "posts" &&
+                                  (pathname === "/blog-editor" ||
+                                    pathname.startsWith("/blog-editor/edit/")))
+                                  ? "menu-item-active"
+                                  : "menu-item-inactive")
+                              }
+                            >
+                              {t(
+                                (isBlog
+                                  ? "blogChildren."
+                                  : isPrompts
+                                    ? "promptsChildren."
+                                    : "teamChildren.") + section.id,
+                              )}
+                            </Link>
+                          </li>
+                        ))}
                       </ul>
                     )}
                   </li>
