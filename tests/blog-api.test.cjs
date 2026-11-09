@@ -12,7 +12,7 @@ before(async()=>{
   assert.equal(req.headers.authorization,'Bearer isolated-blog-session');
   assert.equal(req.headers.origin,'http://localhost:3002');
   if(fail){res.writeHead(503);return res.end(JSON.stringify({detail:'PRIVATE_DIAGNOSTICS'}));}
-  if(req.url==='/api/v1/dashboard/blog/apps'){return res.end(JSON.stringify({apps:[{key:'azeemlab',label:'AzeemLab',configured:true,...(extraCatalog?{database_url:'PRIVATE_DB_URL'}:{})}]}));}
+  if(req.url==='/api/v1.1/dashboard/blog/apps'){return res.end(JSON.stringify({apps:[{key:'azeemlab',label:'AzeemLab',configured:true,...(extraCatalog?{database_url:'PRIVATE_DB_URL'}:{})}]}));}
   if(req.method==='GET'){reads.push(req.url);return res.end(JSON.stringify({posts:[],total:0}));}
   let bytes=[];for await(const chunk of req)bytes.push(chunk);
   writes.push({url:req.url,body:Buffer.concat(bytes),type:req.headers['content-type'],token:req.headers['idempotency-key']});
@@ -27,13 +27,13 @@ async function request(query,method='GET',body,headers={}){return new Request('h
 test('blog proxy retains exact app scope, pagination and no-store',async()=>{
  const response=await handleBlog(await request('app=azeemlab&resource=posts&page=2&search=literal%25'));
  assert.equal(response.status,200);assert.equal(response.headers.get('cache-control'),'private, no-store');
- assert.equal(reads.at(-1),'/api/v1/dashboard/blog/apps/azeemlab/posts?page=2&search=literal%25');
+ assert.equal(reads.at(-1),'/api/v1.1/dashboard/blog/apps/azeemlab/posts?page=2&search=literal%25');
 });
 test('JSON writes retain version and editor document without adding identity or slug',async()=>{
  const body=JSON.stringify({version:3,title:'Secure post',content_json:{type:'doc',content:[]}});
  const response=await handleBlog(await request('app=ailettergen&resource=posts&id=12','PATCH',body,{'Content-Type':'application/json'}));
  assert.equal(response.status,200);
- assert.equal(writes.at(-1).url,'/api/v1/dashboard/blog/apps/ailettergen/posts/12');
+ assert.equal(writes.at(-1).url,'/api/v1.1/dashboard/blog/apps/ailettergen/posts/12');
  assert.deepEqual(JSON.parse(writes.at(-1).body),JSON.parse(body));
 });
 test('binary upload streams intact with retry token and exact MIME',async()=>{
@@ -65,7 +65,7 @@ test('oversized declared body is rejected before forwarding and failures hide di
 test('image gallery proxy forwards image filtering and pagination but not caller ownership',async()=>{
  const response=await handleBlog(await request('app=azeemlab&resource=assets&page=2&page_size=12&media_type=image&uploaded_by_membership_id=99'));
  assert.equal(response.status,200);
- assert.equal(reads.at(-1),'/api/v1/dashboard/blog/apps/azeemlab/assets?page=2&page_size=12&media_type=image');
+ assert.equal(reads.at(-1),'/api/v1.1/dashboard/blog/apps/azeemlab/assets?page=2&page_size=12&media_type=image');
 });
 
 
@@ -86,7 +86,7 @@ test('avatar proxy streams image bytes to the authenticated self-avatar endpoint
  const bytes=Buffer.from([0,1,2,3]);
  const response=await handleBlog(await request('resource=avatar','POST',bytes,{'Content-Type':'image/webp'}));
  assert.equal(response.status,200);
- assert.equal(writes.at(-1).url,'/api/v1/dashboard/blog/profile/avatar');
+ assert.equal(writes.at(-1).url,'/api/v1.1/dashboard/blog/profile/avatar');
  assert.equal(writes.at(-1).type,'image/webp');assert.deepEqual(writes.at(-1).body,bytes);
  assert.equal((await handleBlog(await request('resource=avatar'))).status,405);
  assert.equal((await handleBlog(await request('resource=avatar','POST',bytes,{'Content-Type':'image/webp','Content-Length':String(2*1024*1024+1)}))).status,413);

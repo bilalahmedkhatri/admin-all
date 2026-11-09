@@ -47,3 +47,5 @@ next-env.d.ts
 /gateway-lint-results.json
 /runtime-audit.json
 /output
+tests/
+

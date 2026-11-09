@@ -108,7 +108,9 @@ export async function handleBlog(request: Request): Promise<Response> {
         },
       };
     }
-    const data = await backend<unknown>(request, path, init);
+    // Blog management uses the additive V1.1 contract for every configured
+    // blog app. Non-blog gateway services keep their legacy V1 transport.
+    const data = await backend<unknown>(request, path, init, true, "v1.1");
     return Response.json(
       resource === "apps" ? blogCatalogSchema.parse(data) : data,
       { headers },

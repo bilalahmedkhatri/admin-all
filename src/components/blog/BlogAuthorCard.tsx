@@ -253,6 +253,7 @@ export default function BlogAuthorCard({
     name: "",
     designation: "",
     avatar_url: "",
+    avatar_upload_token: "",
     description: "",
   });
 
@@ -295,7 +296,11 @@ export default function BlogAuthorCard({
         },
         body: compressed,
       });
-      setDraft((prev) => ({ ...prev, avatar_url: data.url }));
+      setDraft((prev) => ({
+        ...prev,
+        avatar_url: data.url,
+        avatar_upload_token: data.upload_token,
+      }));
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Image upload nahi ho saki.",
@@ -318,10 +323,21 @@ export default function BlogAuthorCard({
     setError("");
 
     try {
+      const profilePayload = {
+        name: draft.name,
+        designation: draft.designation,
+        description: draft.description,
+        ...(draft.avatar_upload_token
+          ? {
+              avatar_url: draft.avatar_url,
+              avatar_upload_token: draft.avatar_upload_token,
+            }
+          : {}),
+      };
       const saved = await blogRequest("", "profile", authorProfileSchema, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draft),
+        body: JSON.stringify(profilePayload),
       });
       onChange(saved);
       setOpen(false);
@@ -386,6 +402,7 @@ export default function BlogAuthorCard({
             name: profile.name,
             designation: profile.designation || "",
             avatar_url: profile.avatar_url || "",
+            avatar_upload_token: "",
             description: profile.description || "",
           });
           setError("");

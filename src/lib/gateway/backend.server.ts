@@ -46,8 +46,11 @@ export async function backend<T>(
   path: string,
   init: RequestInit = {},
   authenticated = true,
+  apiVersion = "v1",
 ): Promise<T> {
   // A fixed dashboard prefix prevents caller-controlled URLs or credential forwarding.
+  if (apiVersion !== "v1" && apiVersion !== "v1.1")
+    throw new Response("Invalid gateway API version", { status: 400 });
   if (
     !path.startsWith("/") ||
     path.startsWith("//") ||
@@ -75,7 +78,7 @@ export async function backend<T>(
     headers.set("Content-Type", "application/json");
   let response: Response;
   try {
-    response = await fetch(new URL("/api/v1/dashboard" + path, gatewayURL()), {
+    response = await fetch(new URL(`/api/${apiVersion}/dashboard` + path, gatewayURL()), {
       ...init,
       headers,
       cache: "no-store",

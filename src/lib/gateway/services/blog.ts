@@ -33,23 +33,23 @@ export async function loadEditorPost(
   appKey: BlogApp["key"],
   id: number,
 ): Promise<BlogEditorInitialData> {
-  const catalog = blogCatalogSchema.parse(await backend(request, "/blog/apps"));
+  const catalog = blogCatalogSchema.parse(await backend(request, "/blog/apps", {}, true, "v1.1"));
   const app = catalog.apps.find(
     (item) => item.key === appKey && item.configured,
   );
   if (!app) throw new Response("Blog app not found", { status: 404 });
   const path = `/blog/apps/${appKey}`;
   const [saved, categories, assets, settings] = await Promise.all([
-    backend(request, `${path}/posts/${id}`).then((data) =>
+    backend(request, `${path}/posts/${id}`, {}, true, "v1.1").then((data) =>
       z.object({ post: postSchema }).parse(data),
     ),
-    backend(request, `${path}/categories?page_size=100`).then((data) =>
+    backend(request, `${path}/categories?page_size=100`, {}, true, "v1.1").then((data) =>
       categoryListSchema.parse(data),
     ),
-    backend(request, `${path}/assets?page_size=100`).then((data) =>
+    backend(request, `${path}/assets?page_size=100`, {}, true, "v1.1").then((data) =>
       assetListSchema.parse(data),
     ),
-    backend(request, `${path}/settings`).then((data) =>
+    backend(request, `${path}/settings`, {}, true, "v1.1").then((data) =>
       z.object({ public_blog_url: z.string().nullable() }).parse(data),
     ),
   ]);

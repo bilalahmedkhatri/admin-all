@@ -38,6 +38,7 @@ import BlogEditorToolbar from "./BlogEditorToolbar";
 import { blogTables } from "./extensions/blogTables";
 import {
   postSchema,
+  blogDetailsSchema,
   categoryListSchema,
   assetSchema,
   authorProfileSchema,
@@ -329,8 +330,14 @@ export default function DatabaseBlogEditor({
     setExcerpt(saved.excerpt);
     setLocale(saved.locale);
     setCover(saved.cover_asset_id);
+    const details = blogDetailsSchema.safeParse(saved.blog_details_json).success
+      ? blogDetailsSchema.parse(saved.blog_details_json)
+      : null;
+    const featured = details?.featured_image;
     setCoverDetails(
-      savedCoverDetails(saved.metadata_json, saved.cover_asset_id),
+      featured
+        ? { alt_text: featured.alt_text, attribution: featured.attribution }
+        : savedCoverDetails(saved.metadata_json, saved.cover_asset_id),
     );
     setCategory(
       categoryOptions.find((item) => item.id === saved.category_id)?.name || "",
@@ -398,14 +405,53 @@ export default function DatabaseBlogEditor({
         item.name.trim().toLocaleLowerCase() ===
         category.trim().toLocaleLowerCase(),
     );
+    const document = editor.getJSON();
+    const savedDetails = blogDetailsSchema.safeParse(post?.blog_details_json).success
+      ? blogDetailsSchema.parse(post?.blog_details_json)
+      : null;
+    const contentImages: NonNullable<typeof savedDetails>["content_images"] = [];
+    const seen = new Set<number>();
+    function collect(nodes: JSONContent[] | undefined) {
+      for (const node of nodes || []) {
+        if (node.type === "image" || node.type === "customImage") {
+          const assetId =
+            typeof node.attrs?.asset_id === "number"
+              ? node.attrs.asset_id
+              : assets.find((item) => item.public_url === node.attrs?.src)?.id;
+          if (assetId && !seen.has(assetId)) {
+            seen.add(assetId);
+            const previous = savedDetails?.content_images.find(
+              (item) => item.asset_id === assetId,
+            );
+            const asset = assets.find((item) => item.id === assetId);
+            contentImages.push({
+              asset_id: assetId,
+              alt_text: String(node.attrs?.alt ?? previous?.alt_text ?? asset?.alt_text ?? ""),
+              attribution: previous?.attribution ?? asset?.attribution ?? emptyAttribution,
+            });
+          }
+        }
+        collect(node.content);
+      }
+    }
+    collect(document.content);
     const payload = {
       title,
       excerpt,
       locale,
       status,
-      content_json: editor.getJSON(),
+      content_json: document,
       cover_asset_id: cover,
-      cover_image: cover ? coverDetails : null,
+      blog_details: {
+        featured_image: cover
+          ? {
+              asset_id: cover,
+              alt_text: coverDetails?.alt_text ?? "",
+              attribution: coverDetails?.attribution ?? emptyAttribution,
+            }
+          : null,
+        content_images: contentImages,
+      },
       ...(!categoryChanged && post
         ? { category_id: post.category_id }
         : existing
@@ -928,6 +974,7 @@ export default function DatabaseBlogEditor({
       {mediaOpen && (
         <BlogMediaPicker
           appKey={appKey}
+          title={title}
           onInsert={insert}
           onClose={() => setMediaOpen(false)}
         />
@@ -935,6 +982,7 @@ export default function DatabaseBlogEditor({
       {coverOpen && (
         <BlogMediaPicker
           appKey={appKey}
+          title={title}
           imagesOnly
           initialAsset={
             cover && coverSrc

@@ -16,12 +16,14 @@ import {
 
 export default function BlogMediaPicker({
   appKey,
+  title = "blog",
   onInsert,
   onClose,
   imagesOnly = false,
   initialAsset,
 }: {
   appKey: string;
+  title?: string;
   imagesOnly?: boolean;
   initialAsset?: BlogAsset;
   onInsert: (asset: BlogAsset) => void;
@@ -78,7 +80,7 @@ export default function BlogMediaPicker({
           headers: { "Content-Type": mime, "Idempotency-Key": token.current },
           body: uploadFile,
         },
-        { filename: uploadFile.name },
+        { filename: uploadFile.name, title: title.trim() || "blog" },
       );
       if (response.asset.media_type.startsWith("image/")) {
         setFile(null);

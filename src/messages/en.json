@@ -1,4 +1,7 @@
 {
+  "promptEditor": {
+    "urlAddress": "URL address (optional)"
+  },
   "blog": {
     "blogs": "Blogs",
     "newBlog": "New blog",

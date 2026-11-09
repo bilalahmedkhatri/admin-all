@@ -6,6 +6,7 @@ export interface PromptItem {
   title: string;
   category: string;
   content: string;
+  url_address: string | null;
   author_name: string;
   created_at: string | null;
   updated_at: string | null;

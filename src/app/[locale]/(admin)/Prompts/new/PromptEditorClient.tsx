@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import Input from "@/components/form/input/InputField";
 import Button from "@/components/ui/button/Button";
+import type { PromptItem } from "@/lib/gateway/prompts.server";
 import { parseMarkdownToHtml, PROMPT_CATEGORIES, type PromptCategory } from "../prompt-route";
 
 const DEFAULT_MARKDOWN = `# Cinematic Voiceover Persona
@@ -23,13 +26,15 @@ export default function PromptEditorClient({
 }: {
   editId?: string;
   defaultAuthor?: string;
-  initialData?: { title: string; category: string; content: string; author_name: string } | null;
+  initialData?: Pick<PromptItem, "title" | "category" | "content" | "url_address" | "author_name"> | null;
 }) {
+  const t = useTranslations("promptEditor");
   const router = useRouter();
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [category, setCategory] = useState<PromptCategory>(
     (initialData?.category as PromptCategory) ?? "Audio Generation",
   );
+  const [urlAddress, setUrlAddress] = useState(initialData?.url_address ?? "");
   const [author, setAuthor] = useState(initialData?.author_name ?? defaultAuthor);
   const [content, setContent] = useState(initialData?.content ?? DEFAULT_MARKDOWN);
   const [mode, setMode] = useState<"write" | "preview">("write");
@@ -76,6 +81,7 @@ export default function PromptEditorClient({
         title: title.trim(),
         category,
         content: content.trim(),
+        url_address: urlAddress.trim() || null,
         author_name: author.trim() || defaultAuthor,
       };
       const url = editId ? `/Prompts/api?id=${editId}` : "/Prompts/api";
@@ -162,6 +168,22 @@ export default function PromptEditorClient({
             className="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-brand-500 focus:outline-none dark:border-gray-700 dark:text-white"
           />
         </div>
+
+        <div className="md:col-span-3">
+          <label
+            htmlFor="prompt-url-address"
+            className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+          >
+            {t("urlAddress")}
+          </label>
+          <Input
+            id="prompt-url-address"
+            type="url"
+            value={urlAddress}
+            onChange={(e) => setUrlAddress(e.target.value)}
+            maxLength={2048}
+          />
+        </div>
       </div>
 
       {/* Mode Switch & Toolbar */}
@@ -171,22 +193,20 @@ export default function PromptEditorClient({
             <button
               type="button"
               onClick={() => setMode("write")}
-              className={`rounded-md px-3.5 py-1.5 text-xs font-medium transition ${
-                mode === "write"
-                  ? "bg-white text-gray-900 shadow-theme-xs dark:bg-gray-900 dark:text-white"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-              }`}
+              className={`rounded-md px-3.5 py-1.5 text-xs font-medium transition ${mode === "write"
+                ? "bg-white text-gray-900 shadow-theme-xs dark:bg-gray-900 dark:text-white"
+                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                }`}
             >
               Write (Markdown)
             </button>
             <button
               type="button"
               onClick={() => setMode("preview")}
-              className={`rounded-md px-3.5 py-1.5 text-xs font-medium transition ${
-                mode === "preview"
-                  ? "bg-white text-gray-900 shadow-theme-xs dark:bg-gray-900 dark:text-white"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-              }`}
+              className={`rounded-md px-3.5 py-1.5 text-xs font-medium transition ${mode === "preview"
+                ? "bg-white text-gray-900 shadow-theme-xs dark:bg-gray-900 dark:text-white"
+                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                }`}
             >
               Preview
             </button>
@@ -266,11 +286,10 @@ export default function PromptEditorClient({
         <div>
           {saveStatus && (
             <span
-              className={`text-sm font-medium ${
-                saveStatus.includes("fail") || saveStatus.includes("failed")
-                  ? "text-red-500"
-                  : "text-emerald-600 dark:text-emerald-400"
-              }`}
+              className={`text-sm font-medium ${saveStatus.includes("fail") || saveStatus.includes("failed")
+                ? "text-red-500"
+                : "text-emerald-600 dark:text-emerald-400"
+                }`}
             >
               {saveStatus}
             </span>

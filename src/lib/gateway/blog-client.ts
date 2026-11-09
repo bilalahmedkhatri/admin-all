@@ -26,6 +26,7 @@ export const postSchema = z.object({
   author_designation: z.string().nullable(),
   content_json: z.record(z.unknown()).optional(),
   metadata_json: z.record(z.unknown()),
+  blog_details_json: z.record(z.unknown()).optional(),
   updated_at: z.string(),
   created_at: z.string().optional(),
   published_at: z.string().nullable().optional(),
@@ -36,6 +37,28 @@ export type BlogAsset = z.infer<typeof assetSchema> & {
   alt_text?: string;
   attribution?: ImageAttribution;
 };
+const imageAttributionSchema = z.object({
+  credit: z.string(),
+  sourceUrl: z.string(),
+  license: z.string(),
+  licenseUrl: z.string(),
+});
+export const blogDetailsSchema = z.object({
+  featured_image: z.object({
+    asset_id: z.number().int().positive(),
+    alt_text: z.string(),
+    attribution: imageAttributionSchema,
+    url: z.string().url().optional(),
+  }).nullable(),
+  content_images: z.array(z.object({
+    asset_id: z.number().int().positive(),
+    alt_text: z.string(),
+    attribution: imageAttributionSchema,
+    url: z.string().url().optional(),
+  })).max(3),
+  author_image: z.object({ url: z.string().url().nullable(), alt_text: z.string() }).optional(),
+});
+export type BlogDetails = z.infer<typeof blogDetailsSchema>;
 export type BlogEditorInitialData = {
   app: BlogApp;
   post: BlogPost;
@@ -119,4 +142,5 @@ export const avatarUploadSchema = z.object({
       (value) => new URL(value).protocol === "https:",
       "Expected a public HTTPS avatar URL",
     ),
+  upload_token: z.string().min(1),
 });
