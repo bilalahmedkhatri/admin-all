@@ -4,7 +4,10 @@ import { checkOrigin } from "../auth.server";
 import { backend } from "../backend.server";
 import { blogAppKeys, blogCatalogSchema } from "../blog";
 
-export async function handleBlog(request: Request): Promise<Response> {
+export async function handleBlog(
+  request: Request,
+  apiVersion: "v1" | "v1.1" = "v1.1",
+): Promise<Response> {
   const headers = { "Cache-Control": "private, no-store" };
   try {
     if (request.method !== "GET") checkOrigin(request);
@@ -72,34 +75,54 @@ export async function handleBlog(request: Request): Promise<Response> {
         throw new Response("Request too large", { status: 413 });
       if (!request.body)
         throw new Response("Missing request body", { status: 400 });
-      const reader = request.body.getReader();
-      let size = 0;
-      const body = new ReadableStream<Uint8Array>({
-        async pull(controller) {
-          const chunk = await reader.read();
-          if (chunk.done) {
-            controller.close();
-            return;
-          }
-          size += chunk.value.byteLength;
-          if (size > limit) {
-            await reader.cancel();
-            controller.error(new Error("Request too large"));
-            return;
-          }
-          controller.enqueue(chunk.value);
-        },
-        cancel(reason) {
-          return reader.cancel(reason);
-        },
-      });
+      // For v1 JSON posts, strip v1.1-only fields (blog_details) that the
+      // v1 backend rejects with 422 due to extra="forbid" on its contracts.
+      let body: BodyInit | ReadableStream<Uint8Array>;
+      const contentType = request.headers.get("Content-Type") || "";
+      if (
+        apiVersion === "v1" &&
+        !upload &&
+        contentType.includes("application/json")
+      ) {
+        const raw = await request.text();
+        let parsed: Record<string, unknown>;
+        try {
+          parsed = JSON.parse(raw);
+        } catch {
+          throw new Response("Invalid JSON body", { status: 400 });
+        }
+        // Remove v1.1-only fields that v1 backend forbids
+        delete parsed["blog_details"];
+        body = JSON.stringify(parsed);
+      } else {
+        const reader = request.body.getReader();
+        let size = 0;
+        body = new ReadableStream<Uint8Array>({
+          async pull(controller) {
+            const chunk = await reader.read();
+            if (chunk.done) {
+              controller.close();
+              return;
+            }
+            size += chunk.value.byteLength;
+            if (size > limit) {
+              await reader.cancel();
+              controller.error(new Error("Request too large"));
+              return;
+            }
+            controller.enqueue(chunk.value);
+          },
+          cancel(reason) {
+            return reader.cancel(reason);
+          },
+        });
+      }
       init = {
         method,
         body,
-        duplex: "half",
+        ...(body instanceof ReadableStream ? { duplex: "half" } : {}),
         headers: {
-          "Content-Type":
-            request.headers.get("Content-Type") || "application/json",
+          "Content-Type": contentType || "application/json",
           ...(upload
             ? {
                 "Idempotency-Key": request.headers.get("Idempotency-Key") || "",
@@ -108,9 +131,7 @@ export async function handleBlog(request: Request): Promise<Response> {
         },
       };
     }
-    // Blog management uses the additive V1.1 contract for every configured
-    // blog app. Non-blog gateway services keep their legacy V1 transport.
-    const data = await backend<unknown>(request, path, init, true, "v1.1");
+    const data = await backend<unknown>(request, path, init, true, apiVersion);
     return Response.json(
       resource === "apps" ? blogCatalogSchema.parse(data) : data,
       { headers },

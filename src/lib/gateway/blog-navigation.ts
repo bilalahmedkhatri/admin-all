@@ -1,7 +1,11 @@
 import type { BlogPost } from "./blog-client";
 
-export function blogEditPath(app: string, id: number) {
-  return `/blog-editor/edit/${encodeURIComponent(app)}/${id}`;
+export function blogEditPath(
+  app: string,
+  id: number,
+  basePath = "/blog-editor",
+) {
+  return `${basePath}/edit/${encodeURIComponent(app)}/${id}`;
 }
 
 export function publishedBlogUrl(post: BlogPost) {

@@ -39,6 +39,11 @@ export function hasPage(
 export function pageForPath(path: string): PageId | undefined {
   if (path === "/overview" || path.startsWith("/overview/")) return "overview";
   const lowerPath = path.toLowerCase();
+  if (
+    lowerPath === "/blog-editor-v1.1" ||
+    lowerPath.startsWith("/blog-editor-v1.1/")
+  )
+    return "blog-editor";
   return pages.find((p) =>
     p.path === "/"
       ? path === "/"

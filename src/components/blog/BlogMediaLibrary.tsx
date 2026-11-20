@@ -18,11 +18,13 @@ export default function BlogMediaLibrary({
   selectLabel,
   requestAlt = true,
   initialAsset,
+  apiEndpoint = "/blog-editor/api",
 }: {
   appKey: string;
   selectLabel?: string;
   requestAlt?: boolean;
   initialAsset?: BlogAsset;
+  apiEndpoint?: string;
   onInsert: (asset: BlogAsset) => void;
 }) {
   const [assets, setAssets] = useState<BlogAsset[]>([]),
@@ -41,7 +43,7 @@ export default function BlogMediaLibrary({
       page: String(page),
       page_size: "12",
       media_type: "image",
-    })
+    }, apiEndpoint)
       .then((data) => {
         if (active) {
           setAssets(data.assets);
@@ -62,7 +64,7 @@ export default function BlogMediaLibrary({
     return () => {
       active = false;
     };
-  }, [appKey, page, retry]);
+  }, [appKey, apiEndpoint, page, retry]);
   function load(next: number) {
     setLoading(true);
     setError("");

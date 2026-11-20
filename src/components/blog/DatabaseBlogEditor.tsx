@@ -63,6 +63,8 @@ export default function DatabaseBlogEditor({
   canUpdate,
   canPublish,
   initialPost,
+  apiEndpoint = "/blog-editor/api",
+  basePath = "/blog-editor",
 }: {
   initialProfile: { name: string; email: string };
   onUnsavedChange?: (dirty: boolean) => void;
@@ -71,9 +73,20 @@ export default function DatabaseBlogEditor({
   canUpdate: boolean;
   canPublish: boolean;
   initialPost?: BlogEditorInitialData;
+  apiEndpoint?: string;
+  basePath?: string;
 }) {
   const t = useTranslations("blog");
   const router = useRouter();
+  const request = useCallback(<T,>(
+    app: string,
+    resource: string,
+    schema: z.ZodType<T>,
+    init?: RequestInit,
+    extra: Record<string, string> = {},
+  ) => {
+    return blogRequest(app, resource, schema, init, extra, apiEndpoint);
+  }, [apiEndpoint]);
   const [appKey, setAppKey] = useState(initialPost?.app.key ?? "");
   const [apps, setApps] = useState<BlogApp[]>(
     initialPost ? [initialPost.app] : [],
@@ -234,7 +247,16 @@ export default function DatabaseBlogEditor({
         ? pending
         : {
           email: initialProfile.email,
-          request: blogRequest("", "profile", authorProfileSchema),
+          request: blogRequest(
+            "",
+            "profile",
+            authorProfileSchema,
+            undefined,
+            {},
+            typeof apiEndpoint !== "undefined"
+              ? apiEndpoint
+              : "/blog-editor/api",
+          ),
           loaded: false,
         };
     profileRequest.current = entry;
@@ -256,7 +278,7 @@ export default function DatabaseBlogEditor({
     return () => {
       active = false;
     };
-  }, [initialProfile.email]);
+  }, [apiEndpoint, initialProfile.email]);
   function updateProfile(author: AuthorProfile) {
     const entry = profileRequest.current;
     if (entry?.email === initialProfile.email) entry.loaded = true;
@@ -267,17 +289,17 @@ export default function DatabaseBlogEditor({
     setError("");
     try {
       const [cats, media, settings] = await Promise.all([
-        blogRequest(key, "categories", categoryListSchema, undefined, {
+        request(key, "categories", categoryListSchema, undefined, {
           page_size: "100",
         }),
-        blogRequest(
+        request(
           key,
           "assets",
           z.object({ assets: z.array(assetSchema) }),
           undefined,
           { page_size: "100" },
         ),
-        blogRequest(
+        request(
           key,
           "settings",
           z.object({ public_blog_url: z.string().nullable() }),
@@ -310,7 +332,7 @@ export default function DatabaseBlogEditor({
     setCatalogLoading(true);
     setError("");
     try {
-      setApps((await blogRequest("", "apps", blogCatalogSchema)).apps);
+      setApps((await request("", "apps", blogCatalogSchema)).apps);
     } catch (error) {
       setError(
         error instanceof Error
@@ -373,7 +395,7 @@ export default function DatabaseBlogEditor({
     setUncertainCreate(false);
     editor?.commands.setContent(empty, { emitUpdate: false });
     setDirty(false);
-    if (initialPost) router.push("/blog-editor/new");
+    if (initialPost) router.push(`${basePath}/new`);
   }
   async function save(status: "draft" | "published" | "archived") {
     if (!editor || busy || loading || !writable || uncertainCreate) return;
@@ -462,10 +484,10 @@ export default function DatabaseBlogEditor({
       ...(post ? { version: post.version } : {}),
     };
     try {
-      const data = await blogRequest(
+      const data = await request(
         appKey,
         "posts",
-        z.object({ post: postSchema, audit_recorded: z.boolean() }),
+        z.object({ post: postSchema, audit_recorded: z.boolean().nullable() }),
         {
           method: post ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -481,7 +503,7 @@ export default function DatabaseBlogEditor({
           : "Post saved. The activity log could not be recorded.",
       );
       // Refresh categories without keeping the editor locked after saving.
-      void blogRequest(appKey, "categories", categoryListSchema, undefined, {
+      void request(appKey, "categories", categoryListSchema, undefined, {
         page_size: "100",
       })
         .then((cats) => {
@@ -546,7 +568,7 @@ export default function DatabaseBlogEditor({
     >
       <BlogPageHeader
         title={post ? t("editPost") : t("newBlog")}
-        breadcrumb={{ label: t("blogs"), href: "/blog-editor/posts" }}
+        breadcrumb={{ label: t("blogs"), href: `${basePath}/posts` }}
         context={
           appKey
             ? apps.find((app) => app.key === appKey)?.label || appKey
@@ -860,7 +882,11 @@ export default function DatabaseBlogEditor({
               </label>
             </fieldset>
           </CoverImageCard>
-          <BlogAuthorCard profile={profile} onChange={updateProfile} />
+          <BlogAuthorCard
+            profile={profile}
+            onChange={updateProfile}
+            apiEndpoint={apiEndpoint}
+          />
         </aside>
       </div>
       {targetOpen && (
@@ -975,6 +1001,7 @@ export default function DatabaseBlogEditor({
         <BlogMediaPicker
           appKey={appKey}
           title={title}
+          apiEndpoint={apiEndpoint}
           onInsert={insert}
           onClose={() => setMediaOpen(false)}
         />
@@ -983,6 +1010,7 @@ export default function DatabaseBlogEditor({
         <BlogMediaPicker
           appKey={appKey}
           title={title}
+          apiEndpoint={apiEndpoint}
           imagesOnly
           initialAsset={
             cover && coverSrc

@@ -8,6 +8,8 @@ export default function BlogWorkspace(props: {
   canUpdate: boolean;
   canPublish: boolean;
   initialPost?: BlogEditorInitialData;
+  apiEndpoint?: string;
+  basePath?: string;
 }) {
   return (
     <DatabaseBlogEditor

@@ -9,10 +9,12 @@ export default function BlogPostActions({
   app,
   post,
   canUpdate,
+  basePath = "/blog-editor",
 }: {
   app: string;
   post: BlogPost;
   canUpdate: boolean;
+  basePath?: string;
 }) {
   const t = useTranslations("blog");
   const publicUrl = publishedBlogUrl(post);
@@ -21,7 +23,7 @@ export default function BlogPostActions({
   return (
     <div className="flex items-start gap-1">
       <Link
-        href={blogEditPath(app, post.id)}
+        href={blogEditPath(app, post.id, basePath)}
         aria-label={t(canUpdate ? "editPost" : "openPost")}
         title={t(canUpdate ? "editPost" : "openPost")}
         className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-brand-500 focus-visible:outline-2 focus-visible:outline-brand-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-brand-400"

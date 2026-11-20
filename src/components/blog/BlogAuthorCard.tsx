@@ -239,9 +239,11 @@ const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2MB
 export default function BlogAuthorCard({
   profile,
   onChange,
+  apiEndpoint = "/blog-editor/api",
 }: {
   profile: AuthorProfile;
   onChange: (profile: AuthorProfile) => void;
+  apiEndpoint?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -288,6 +290,8 @@ export default function BlogAuthorCard({
           "Compressed avatar must be no larger than 2 MiB. Choose a smaller image.",
         );
       }
+      const endpoint =
+        typeof apiEndpoint !== "undefined" ? apiEndpoint : "/blog-editor/api";
       const data = await blogRequest("", "avatar", avatarUploadSchema, {
         method: "POST",
         headers: {
@@ -295,7 +299,7 @@ export default function BlogAuthorCard({
             compressed.type === "image/jpg" ? "image/jpeg" : compressed.type,
         },
         body: compressed,
-      });
+      }, {}, endpoint);
       setDraft((prev) => ({
         ...prev,
         avatar_url: data.url,
@@ -334,11 +338,13 @@ export default function BlogAuthorCard({
             }
           : {}),
       };
+      const endpoint =
+        typeof apiEndpoint !== "undefined" ? apiEndpoint : "/blog-editor/api";
       const saved = await blogRequest("", "profile", authorProfileSchema, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profilePayload),
-      });
+      }, {}, endpoint);
       onChange(saved);
       setOpen(false);
     } catch (err) {

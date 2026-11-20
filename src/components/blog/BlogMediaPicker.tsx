@@ -21,11 +21,13 @@ export default function BlogMediaPicker({
   onClose,
   imagesOnly = false,
   initialAsset,
+  apiEndpoint = "/blog-editor/api",
 }: {
   appKey: string;
   title?: string;
   imagesOnly?: boolean;
   initialAsset?: BlogAsset;
+  apiEndpoint?: string;
   onInsert: (asset: BlogAsset) => void;
   onClose: () => void;
 }) {
@@ -71,6 +73,10 @@ export default function BlogMediaPicker({
             string
           >
         )[uploadFile.type] || uploadFile.type;
+      const endpoint =
+        typeof apiEndpoint !== "undefined" ? apiEndpoint : "/blog-editor/api";
+      const mediaTitle =
+        typeof title === "string" && title.trim() ? title.trim() : "blog";
       const response = await blogRequest(
         appKey,
         "assets",
@@ -80,7 +86,8 @@ export default function BlogMediaPicker({
           headers: { "Content-Type": mime, "Idempotency-Key": token.current },
           body: uploadFile,
         },
-        { filename: uploadFile.name, title: title.trim() || "blog" },
+        { filename: uploadFile.name, title: mediaTitle },
+        endpoint,
       );
       if (response.asset.media_type.startsWith("image/")) {
         setFile(null);
@@ -167,6 +174,7 @@ export default function BlogMediaPicker({
             selectLabel={imagesOnly ? "Use as cover" : undefined}
             initialAsset={initialAsset}
             appKey={appKey}
+            apiEndpoint={apiEndpoint}
             onInsert={(asset) => {
               onInsert(asset);
               onClose();

@@ -24,7 +24,7 @@ export type BlogPostFilters = {
   search: string;
 };
 
-export default function useBlogPosts() {
+export default function useBlogPosts(apiEndpoint = "/blog-editor/api") {
   const t = useTranslations("blog");
   const [apps, setApps] = useState<BlogApp[]>([]);
   const [groups, setGroups] = useState<BlogPostGroup[]>([]);
@@ -41,7 +41,9 @@ export default function useBlogPosts() {
     let active = true;
     async function load() {
       try {
-        const catalog = await blogRequest("", "apps", blogCatalogSchema);
+        const catalog = await blogRequest(
+          "", "apps", blogCatalogSchema, undefined, {}, apiEndpoint,
+        );
         if (!active) return;
         const available = catalog.apps.filter((app) => app.configured);
         setApps(available);
@@ -60,6 +62,7 @@ export default function useBlogPosts() {
                   search: filters.search,
                   ...(filters.status ? { status: filters.status } : {}),
                 },
+                apiEndpoint,
               );
               return { app, ...data, error: "" };
             } catch (error) {
@@ -90,7 +93,7 @@ export default function useBlogPosts() {
     return () => {
       active = false;
     };
-  }, [filters, pages, revision, t]);
+  }, [apiEndpoint, filters, pages, revision, t]);
   return {
     apps,
     groups,

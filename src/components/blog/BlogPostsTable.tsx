@@ -18,11 +18,13 @@ export default function BlogPostsTable({
   isAdmin,
   canUpdate,
   onPageChange,
+  basePath = "/blog-editor",
 }: {
   groups: BlogPostGroup[];
   isAdmin: boolean;
   canUpdate: boolean;
   onPageChange?: (app: string, page: number) => void;
+  basePath?: string;
 }) {
   const t = useTranslations("blog");
   const locale = useLocale();
@@ -75,7 +77,7 @@ export default function BlogPostsTable({
                 <TableRow key={`${app.key}:${post.id}`} className="align-top">
                   <TableCell className={`${cell} max-w-sm min-w-52`}>
                     <Link
-                      href={blogEditPath(app.key, post.id)}
+                      href={blogEditPath(app.key, post.id, basePath)}
                       className="font-medium break-words text-gray-900 hover:text-brand-500 dark:text-white dark:hover:text-brand-400"
                     >
                       {post.title}
@@ -120,6 +122,7 @@ export default function BlogPostsTable({
                       app={app.key}
                       post={post}
                       canUpdate={canUpdate}
+                      basePath={basePath}
                     />
                   </TableCell>
                 </TableRow>

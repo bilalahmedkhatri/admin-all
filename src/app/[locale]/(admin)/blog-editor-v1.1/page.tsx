@@ -18,6 +18,8 @@ export default async function BlogEditorPage({
       key={data.membershipId}
       isAdmin={data.isAdmin}
       canUpdate={data.canUpdate}
+      apiEndpoint="/blog-editor-v1.1/api"
+      basePath="/blog-editor-v1.1"
     />
   );
 }

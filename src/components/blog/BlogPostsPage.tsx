@@ -10,13 +10,17 @@ import useBlogPosts from "./useBlogPosts";
 export default function BlogPostsPage({
   isAdmin,
   canUpdate,
+  apiEndpoint = "/blog-editor/api",
+  basePath = "/blog-editor",
 }: {
   isAdmin: boolean;
   canUpdate: boolean;
+  apiEndpoint?: string;
+  basePath?: string;
 }) {
   const t = useTranslations("blog");
   const { apps, groups, filters, filter, loading, error, paginate, refresh } =
-    useBlogPosts();
+    useBlogPosts(apiEndpoint);
   const [search, setSearch] = useState("");
   const control =
     "w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100";
@@ -132,6 +136,7 @@ export default function BlogPostsPage({
               )}
               isAdmin={isAdmin}
               canUpdate={canUpdate}
+              basePath={basePath}
               onPageChange={paginate}
             />
           </>

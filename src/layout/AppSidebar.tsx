@@ -184,7 +184,10 @@ export default function AppSidebar({
                 const isPrompts = id === "prompts";
                 const active =
                   pathname.toLowerCase() === path.toLowerCase() ||
-                  pathname.toLowerCase().startsWith(path.toLowerCase() + "/");
+                  pathname.toLowerCase().startsWith(path.toLowerCase() + "/") ||
+                  (isBlog &&
+                    (pathname.toLowerCase() === "/blog-editor-v1.1" ||
+                      pathname.toLowerCase().startsWith("/blog-editor-v1.1/")));
                 const menu = isBlog
                   ? blogMenu
                   : isPrompts
@@ -200,6 +203,8 @@ export default function AppSidebar({
                   ? [
                       { id: "new", path: "/blog-editor/new" },
                       { id: "posts", path: "/blog-editor/posts" },
+                      { id: "new-v1.1", path: "/blog-editor-v1.1/new" },
+                      { id: "posts-v1.1", path: "/blog-editor-v1.1/posts" },
                     ]
                   : isPrompts
                     ? [
@@ -252,41 +257,49 @@ export default function AppSidebar({
                         id={`${id}-submenu`}
                         className="ms-5 mt-2 space-y-1 border-s border-gray-200 ps-4 dark:border-gray-800"
                       >
-                        {sections.map((section) => (
-                          <li key={section.id}>
-                            <Link
-                              href={section.path}
-                              aria-current={
-                                pathname === section.path ||
-                                (section.id === "posts" &&
-                                  (pathname === "/blog-editor" ||
-                                    pathname.startsWith("/blog-editor/edit/")))
-                                  ? "page"
-                                  : undefined
-                              }
-                              onClick={() => {
-                                if (isMobileOpen) toggleMobileSidebar();
-                              }}
-                              className={
-                                "menu-item text-sm " +
-                                (pathname === section.path ||
-                                (section.id === "posts" &&
-                                  (pathname === "/blog-editor" ||
-                                    pathname.startsWith("/blog-editor/edit/")))
-                                  ? "menu-item-active"
-                                  : "menu-item-inactive")
-                              }
-                            >
-                              {t(
-                                (isBlog
-                                  ? "blogChildren."
-                                  : isPrompts
-                                    ? "promptsChildren."
-                                    : "teamChildren.") + section.id,
-                              )}
-                            </Link>
-                          </li>
-                        ))}
+                        {sections.map((section) => {
+                          const sectionActive =
+                            pathname === section.path ||
+                            (section.id === "posts" &&
+                              (pathname === "/blog-editor" ||
+                                pathname.startsWith("/blog-editor/edit/"))) ||
+                            (section.id === "posts-v1.1" &&
+                              (pathname === "/blog-editor-v1.1" ||
+                                pathname.startsWith("/blog-editor-v1.1/edit/")));
+                          const translationKey = section.id.startsWith("new")
+                            ? "new"
+                            : section.id.startsWith("posts")
+                              ? "posts"
+                              : section.id;
+                          return (
+                            <li key={section.id}>
+                              <Link
+                                href={section.path}
+                                aria-current={sectionActive ? "page" : undefined}
+                                onClick={() => {
+                                  if (isMobileOpen) toggleMobileSidebar();
+                                }}
+                                className={
+                                  "menu-item text-sm " +
+                                  (sectionActive
+                                    ? "menu-item-active"
+                                    : "menu-item-inactive")
+                                }
+                              >
+                                {t(
+                                  (isBlog
+                                    ? "blogChildren."
+                                    : isPrompts
+                                      ? "promptsChildren."
+                                      : "teamChildren.") + translationKey,
+                                )}
+                                {isBlog &&
+                                  section.id.endsWith("-v1.1") &&
+                                  " (V1.1)"}
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </li>

@@ -24,9 +24,9 @@ export const postSchema = z.object({
   cover_asset_id: z.number().nullable(),
   author_name: z.string(),
   author_designation: z.string().nullable(),
-  content_json: z.record(z.unknown()).optional(),
+  content_json: z.record(z.unknown()).nullable().optional(),
   metadata_json: z.record(z.unknown()),
-  blog_details_json: z.record(z.unknown()).optional(),
+  blog_details_json: z.record(z.unknown()).nullable().optional(),
   updated_at: z.string(),
   created_at: z.string().optional(),
   published_at: z.string().nullable().optional(),
@@ -80,9 +80,10 @@ export async function blogRequest<T>(
   schema: z.ZodType<T>,
   init?: RequestInit,
   extra: Record<string, string> = {},
+  endpoint = "/blog-editor/api",
 ): Promise<T> {
   const query = new URLSearchParams({ app, resource, ...extra });
-  const response = await fetch("/blog-editor/api?" + query, {
+  const response = await fetch(endpoint + "?" + query, {
     ...init,
     cache: "no-store",
     credentials: "same-origin",
@@ -116,7 +117,6 @@ export const categoryListSchema = z.object({
   page: z.number(),
   page_size: z.number(),
 });
-
 export const assetListSchema = z.object({
   assets: z.array(assetSchema),
   total: z.number().int().nonnegative(),
@@ -142,5 +142,5 @@ export const avatarUploadSchema = z.object({
       (value) => new URL(value).protocol === "https:",
       "Expected a public HTTPS avatar URL",
     ),
-  upload_token: z.string().min(1),
+  upload_token: z.string().min(1).optional(),
 });
