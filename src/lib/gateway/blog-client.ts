@@ -43,6 +43,14 @@ const imageAttributionSchema = z.object({
   license: z.string(),
   licenseUrl: z.string(),
 });
+export const seoDetailsSchema = z.object({
+  seo_title: z.string().max(100).optional().nullable(),
+  meta_description: z.string().max(320).optional().nullable(),
+  primary_keyword: z.string().max(100).optional().nullable(),
+  secondary_keywords: z.array(z.string().max(80)).max(15).optional(),
+});
+export type SeoDetails = z.infer<typeof seoDetailsSchema>;
+
 export const blogDetailsSchema = z.object({
   featured_image: z.object({
     asset_id: z.number().int().positive(),
@@ -57,6 +65,7 @@ export const blogDetailsSchema = z.object({
     url: z.string().url().optional(),
   })).max(3),
   author_image: z.object({ url: z.string().url().nullable(), alt_text: z.string() }).optional(),
+  seo: seoDetailsSchema.optional().nullable(),
 });
 export type BlogDetails = z.infer<typeof blogDetailsSchema>;
 export type BlogEditorInitialData = {

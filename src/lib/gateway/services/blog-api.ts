@@ -6,8 +6,10 @@ import { blogAppKeys, blogCatalogSchema } from "../blog";
 
 export async function handleBlog(
   request: Request,
-  apiVersion: "v1" | "v1.1" = "v1.1",
+  apiVersionOrContext?: "v1" | "v1.1" | unknown,
 ): Promise<Response> {
+  const apiVersion: "v1" | "v1.1" =
+    apiVersionOrContext === "v1" ? "v1" : "v1.1";
   const headers = { "Cache-Control": "private, no-store" };
   try {
     if (request.method !== "GET") checkOrigin(request);
@@ -58,6 +60,7 @@ export async function handleBlog(
       "status",
       "filename",
       "media_type",
+      "title",
     ]) {
       const value = url.searchParams.get(field);
       if (value !== null) query.set(field, value);

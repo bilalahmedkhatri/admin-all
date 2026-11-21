@@ -74,44 +74,155 @@ export function SearchPreview({
   excerpt,
   canonical,
   slug,
+  seoTitle,
+  setSeoTitle,
+  metaDescription,
+  setMetaDescription,
+  primaryKeyword,
+  setPrimaryKeyword,
+  secondaryKeywords,
+  setSecondaryKeywords,
+  fieldClass,
+  disabled,
+  markDirty,
 }: {
   editor: Editor;
   title: string;
   excerpt: string;
   canonical: string | null;
   slug?: string;
+  seoTitle: string;
+  setSeoTitle: (v: string) => void;
+  metaDescription: string;
+  setMetaDescription: (v: string) => void;
+  primaryKeyword: string;
+  setPrimaryKeyword: (v: string) => void;
+  secondaryKeywords: string;
+  setSecondaryKeywords: (v: string) => void;
+  fieldClass: string;
+  disabled: boolean;
+  markDirty: () => void;
 }) {
   const text = useEditorState({
     editor,
     selector: ({ editor }) =>
       editor.getText().replace(/\s+/gu, " ").trim().slice(0, 160),
   });
+
+  const previewTitle = seoTitle || title || "Article Title Preview";
+  const previewDesc =
+    metaDescription || excerpt || text || "Write a meta description or summary to see how search engines and AI assistants render this snippet.";
+  const previewUrl = canonical
+    ? canonical + (slug ? "/" + slug : "")
+    : "URL available after saving";
+
   return (
     <EditorPanel title={"SEO & search preview"}>
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        {
-          "Your title and excerpt shape the search listing. Final metadata and the URL are generated when you save."
-        }
+        {"Your title and excerpt shape the search listing. Final metadata and the URL are generated when you save."}
       </p>
+
+      {/* Live SERP preview */}
       <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-        <p className="mb-3 flex items-center gap-2 text-theme-xs font-semibold tracking-wider text-gray-400 uppercase">
-          <FaSearch aria-hidden="true" />
-          {"Search result preview"}
+        <p className="mb-3 flex items-center justify-between text-theme-xs font-semibold tracking-wider text-gray-400 uppercase">
+          <span className="flex items-center gap-2">
+            <FaSearch aria-hidden="true" />
+            {"Search result preview"}
+          </span>
+          <span className="text-primary-500 font-medium normal-case text-[10px]">gemini · perplexity · gpt</span>
         </p>
         <p className="text-theme-xs break-all text-gray-500 dark:text-gray-400">
-          {canonical
-            ? canonical + (slug ? "/" + slug : "")
-            : "URL available after saving"}
+          {previewUrl}
         </p>
-        <p className="mt-1 text-lg leading-snug text-blue-light-700 dark:text-blue-light-400">
-          {title.slice(0, 70) || "Untitled post"}
+        <p className="mt-1 text-lg leading-snug text-blue-light-700 dark:text-blue-light-400 truncate">
+          {previewTitle.slice(0, 70)}
         </p>
         <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-          {excerpt.slice(0, 160) ||
-            text ||
-            "Your article summary will appear here."}
+          {previewDesc.slice(0, 160)}
         </p>
+        {(primaryKeyword || secondaryKeywords) && (
+          <div className="pt-2 flex flex-wrap gap-1">
+            {primaryKeyword && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+                Target: {primaryKeyword}
+              </span>
+            )}
+            {secondaryKeywords.split(",").map((s) => s.trim()).filter(Boolean).map((kw, i) => (
+              <span key={i} className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                {kw}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* SEO fields */}
+      <fieldset disabled={disabled} className="space-y-4">
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+              SEO Title
+            </label>
+            <span className={`text-[11px] ${seoTitle.length > 60 ? "text-amber-500 font-medium" : "text-gray-400"}`}>
+              {seoTitle.length}/60
+            </span>
+          </div>
+          <input
+            type="text"
+            maxLength={100}
+            placeholder={title ? title.slice(0, 60) : "Optimized title for search & AI"}
+            value={seoTitle}
+            onChange={(e) => { setSeoTitle(e.target.value); markDirty(); }}
+            className={fieldClass}
+          />
+        </div>
+
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+              Meta Description
+            </label>
+            <span className={`text-[11px] ${metaDescription.length > 160 ? "text-amber-500 font-medium" : "text-gray-400"}`}>
+              {metaDescription.length}/160
+            </span>
+          </div>
+          <textarea
+            rows={3}
+            maxLength={320}
+            placeholder={excerpt ? excerpt.slice(0, 160) : "Search snippet for Google, Perplexity & AI..."}
+            value={metaDescription}
+            onChange={(e) => { setMetaDescription(e.target.value); markDirty(); }}
+            className={`${fieldClass} py-2`}
+          />
+        </div>
+
+        <div>
+          <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 block mb-1">
+            Primary Keyword <span className="font-normal text-gray-400">(AEO / GEO focus)</span>
+          </label>
+          <input
+            type="text"
+            maxLength={100}
+            placeholder="e.g. how much house can I afford"
+            value={primaryKeyword}
+            onChange={(e) => { setPrimaryKeyword(e.target.value); markDirty(); }}
+            className={fieldClass}
+          />
+        </div>
+
+        <div>
+          <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 block mb-1">
+            Secondary Keywords <span className="font-normal text-gray-400">(comma-separated)</span>
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. mortgage calculator, 28/36 rule"
+            value={secondaryKeywords}
+            onChange={(e) => { setSecondaryKeywords(e.target.value); markDirty(); }}
+            className={fieldClass}
+          />
+        </div>
+      </fieldset>
     </EditorPanel>
   );
 }

@@ -156,6 +156,18 @@ export default function DatabaseBlogEditor({
   );
   const [categoryChanged, setCategoryChanged] = useState(false);
   const [uncertainCreate, setUncertainCreate] = useState(false);
+  const initialDetails = blogDetailsSchema.safeParse(initialPost?.post.blog_details_json).data;
+  const initialSeo = initialDetails?.seo;
+  const [seoTitle, setSeoTitle] = useState(initialSeo?.seo_title ?? (initialPost?.post.metadata_json?.seo_title as string) ?? "");
+  const [metaDescription, setMetaDescription] = useState(initialSeo?.meta_description ?? (initialPost?.post.metadata_json?.meta_description as string) ?? "");
+  const [primaryKeyword, setPrimaryKeyword] = useState(initialSeo?.primary_keyword ?? (initialPost?.post.metadata_json?.primary_keyword as string) ?? "");
+  const [secondaryKeywords, setSecondaryKeywords] = useState(
+    Array.isArray(initialSeo?.secondary_keywords)
+      ? initialSeo.secondary_keywords.join(", ")
+      : Array.isArray(initialPost?.post.metadata_json?.secondary_keywords)
+        ? (initialPost.post.metadata_json.secondary_keywords as string[]).join(", ")
+        : ""
+  );
   const writable = post
     ? canUpdate && (post.status !== "published" || canPublish)
     : canCreate;
@@ -356,6 +368,17 @@ export default function DatabaseBlogEditor({
       ? blogDetailsSchema.parse(saved.blog_details_json)
       : null;
     const featured = details?.featured_image;
+    const seo = details?.seo;
+    setSeoTitle(seo?.seo_title ?? (saved.metadata_json?.seo_title as string) ?? "");
+    setMetaDescription(seo?.meta_description ?? (saved.metadata_json?.meta_description as string) ?? "");
+    setPrimaryKeyword(seo?.primary_keyword ?? (saved.metadata_json?.primary_keyword as string) ?? "");
+    setSecondaryKeywords(
+      Array.isArray(seo?.secondary_keywords)
+        ? seo.secondary_keywords.join(", ")
+        : Array.isArray(saved.metadata_json?.secondary_keywords)
+          ? (saved.metadata_json.secondary_keywords as string[]).join(", ")
+          : ""
+    );
     setCoverDetails(
       featured
         ? { alt_text: featured.alt_text, attribution: featured.attribution }
@@ -387,6 +410,10 @@ export default function DatabaseBlogEditor({
     setTitle("");
     setExcerpt("");
     setCategory("");
+    setSeoTitle("");
+    setMetaDescription("");
+    setPrimaryKeyword("");
+    setSecondaryKeywords("");
     setCover(null);
     setCoverDetails(null);
     setLocale("en");
@@ -457,6 +484,20 @@ export default function DatabaseBlogEditor({
       }
     }
     collect(document.content);
+    const secondaryList = secondaryKeywords
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean)
+      .slice(0, 15);
+    const seoPayload =
+      seoTitle.trim() || metaDescription.trim() || primaryKeyword.trim() || secondaryList.length > 0
+        ? {
+            seo_title: seoTitle.trim() || null,
+            meta_description: metaDescription.trim() || null,
+            primary_keyword: primaryKeyword.trim() || null,
+            secondary_keywords: secondaryList,
+          }
+        : null;
     const payload = {
       title,
       excerpt,
@@ -473,6 +514,7 @@ export default function DatabaseBlogEditor({
             }
           : null,
         content_images: contentImages,
+        seo: seoPayload,
       },
       ...(!categoryChanged && post
         ? { category_id: post.category_id }
@@ -699,6 +741,17 @@ export default function DatabaseBlogEditor({
               excerpt={excerpt}
               canonical={canonical?.replace("{locale}", locale) ?? null}
               slug={post?.slug}
+              seoTitle={seoTitle}
+              setSeoTitle={setSeoTitle}
+              metaDescription={metaDescription}
+              setMetaDescription={setMetaDescription}
+              primaryKeyword={primaryKeyword}
+              setPrimaryKeyword={setPrimaryKeyword}
+              secondaryKeywords={secondaryKeywords}
+              setSecondaryKeywords={setSecondaryKeywords}
+              fieldClass={fieldClass}
+              disabled={busy || loading || !writable}
+              markDirty={markDirty}
             />
           )}
           <EditorPanel title={"Article summary"}>

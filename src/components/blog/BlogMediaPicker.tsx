@@ -76,7 +76,7 @@ export default function BlogMediaPicker({
       const endpoint =
         typeof apiEndpoint !== "undefined" ? apiEndpoint : "/blog-editor/api";
       const mediaTitle =
-        typeof title === "string" && title.trim() ? title.trim() : "blog";
+        (typeof title === "string" && title.trim() ? title.trim() : "blog").slice(0, 70);
       const response = await blogRequest(
         appKey,
         "assets",
