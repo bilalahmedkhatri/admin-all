@@ -303,7 +303,7 @@ export default function BlogAuthorCard({
       setDraft((prev) => ({
         ...prev,
         avatar_url: data.url,
-        avatar_upload_token: data.upload_token,
+        avatar_upload_token: data.upload_token ?? "",
       }));
     } catch (err) {
       setError(
